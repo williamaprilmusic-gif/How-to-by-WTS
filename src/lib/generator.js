@@ -1,6 +1,6 @@
 import { CATEGORY_IMAGES } from './topics.js';
 
-// Guide generation runs server-side (api/generate-guide.js) so the Anthropic
+// Guide generation runs server-side (api/generate-guide.js) so the Gemini
 // API key never reaches the browser.
 export async function generateGuide(topic, category) {
   const response = await fetch('/api/generate-guide', {

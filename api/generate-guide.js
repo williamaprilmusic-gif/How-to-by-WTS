@@ -8,9 +8,9 @@ export default async function handler(req, res) {
     return;
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    res.status(500).json({ error: 'Server is missing ANTHROPIC_API_KEY' });
+    res.status(500).json({ error: 'Server is missing GEMINI_API_KEY' });
     return;
   }
 
@@ -65,28 +65,26 @@ Requirements:
 - Make it genuinely useful for a real person doing this task`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-5',
-        max_tokens: 4096,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    });
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 4096 },
+        }),
+      }
+    );
 
     if (!response.ok) {
       const text = await response.text();
-      res.status(response.status).json({ error: `Anthropic API error: ${text}` });
+      res.status(response.status).json({ error: `Gemini API error: ${text}` });
       return;
     }
 
     const data = await response.json();
-    const raw = data.content.map((b) => b.text || '').join('');
+    const raw = (data.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('');
     const clean = raw.replace(/```json|```/g, '').trim();
     const guide = JSON.parse(clean);
 
