@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { BarChart2, AlignLeft, Sparkles, ChevronRight } from 'lucide-react';
 import TopBar from './components/TopBar.jsx';
 import Sidebar from './components/Sidebar.jsx';
@@ -6,7 +6,7 @@ import GuideCard from './components/GuideCard.jsx';
 import GeneratePanel from './components/GeneratePanel.jsx';
 import ReaderModal from './components/ReaderModal.jsx';
 import { BookmarksDrawer, CreateGuideModal } from './components/Drawers.jsx';
-import { useGuideStore } from './hooks/useGuideStore.js';
+import { useGuideStore, useLocalStorage } from './hooks/useGuideStore.js';
 import { CATEGORY_META } from './lib/topics.js';
 
 const DIFFICULTIES = ['All', 'Beginner', 'Intermediate', 'Advanced'];
@@ -99,7 +99,7 @@ export default function App() {
   const [difficulty, setDifficulty] = useState('All');
   const [sort, setSort] = useState('popular');
   const [view, setView] = useState('grid');
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useLocalStorage('howto_dark_mode', false);
   const [showGenerator, setShowGenerator] = useState(true);
   const [activeGuide, setActiveGuide] = useState(null);
   const [bookmarksOpen, setBookmarksOpen] = useState(false);
@@ -127,6 +127,37 @@ export default function App() {
   }, [guides, category, difficulty, query, sort]);
 
   const featured = useMemo(() => guides.find(g => g.isFeatured) || guides[0], [guides]);
+
+  const initialHashHandled = useRef(false);
+  useEffect(() => {
+    if (initialHashHandled.current) return;
+    initialHashHandled.current = true;
+    const match = window.location.hash.match(/^#guide\/(.+)$/);
+    if (match) {
+      const found = guides.find(g => g.slug === match[1]);
+      if (found) setActiveGuide(found);
+    }
+  }, [guides]);
+
+  useEffect(() => {
+    const onHashChange = () => {
+      const match = window.location.hash.match(/^#guide\/(.+)$/);
+      const found = match ? guides.find(g => g.slug === match[1]) : null;
+      setActiveGuide(found || null);
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, [guides]);
+
+  useEffect(() => {
+    if (activeGuide) {
+      if (window.location.hash !== `#guide/${activeGuide.slug}`) {
+        window.location.hash = `guide/${activeGuide.slug}`;
+      }
+    } else if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  }, [activeGuide]);
 
   return (
     <div className={dark ? 'dark' : ''} style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>

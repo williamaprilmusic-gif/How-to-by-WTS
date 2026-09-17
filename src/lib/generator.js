@@ -15,6 +15,10 @@ export async function generateGuide(topic, category) {
   }
   const { guide } = await response.json();
 
+  if (!guide || typeof guide.title !== 'string' || !guide.title.trim() || !Array.isArray(guide.steps) || guide.steps.length === 0) {
+    throw new Error('The AI response was missing a title or steps — try generating again.');
+  }
+
   // Assign images from our curated pool
   const imgs = CATEGORY_IMAGES[category] || CATEGORY_IMAGES["Tech & Programming"];
   const heroIdx = Math.floor(Math.random() * imgs.length);

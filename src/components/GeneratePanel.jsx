@@ -6,8 +6,6 @@ import { generateGuide } from '../lib/generator.js';
 export default function GeneratePanel({ onGuideGenerated, existingGuides, dark }) {
   const [status, setStatus] = useState({}); // topicKey -> 'loading' | 'done' | 'error'
   const [expanded, setExpanded] = useState(null);
-  const [batchRunning, setBatchRunning] = useState(false);
-  const [batchProgress, setBatchProgress] = useState({ done: 0, total: 0 });
 
   const existingTitles = useMemo(
     () => new Set(existingGuides.map(g => g.title.toLowerCase())),
@@ -29,27 +27,6 @@ export default function GeneratePanel({ onGuideGenerated, existingGuides, dark }
       setStatus(s => ({ ...s, [key]: 'error' }));
     }
   }, [status, onGuideGenerated]);
-
-  const generateAll = useCallback(async () => {
-    if (batchRunning) return;
-    const allTopics = ALL_CATEGORIES.flatMap(cat =>
-      TOPIC_SEEDS[cat].map(topic => ({ cat, topic }))
-    ).filter(({ cat, topic }) => {
-      const key = topicKey(cat, topic);
-      return status[key] !== 'done' && !existingTitles.has(topic.toLowerCase());
-    });
-
-    setBatchRunning(true);
-    setBatchProgress({ done: 0, total: allTopics.length });
-
-    for (const { cat, topic } of allTopics) {
-      await generate(cat, topic);
-      setBatchProgress(p => ({ ...p, done: p.done + 1 }));
-      // Small delay to avoid hammering the API
-      await new Promise(r => setTimeout(r, 400));
-    }
-    setBatchRunning(false);
-  }, [batchRunning, status, generate, existingTitles]);
 
   const doneCount = Object.values(status).filter(v => v === 'done').length;
   const totalTopics = ALL_CATEGORIES.reduce((n, c) => n + TOPIC_SEEDS[c].length, 0);
@@ -79,18 +56,6 @@ export default function GeneratePanel({ onGuideGenerated, existingGuides, dark }
             />
           </div>
         </div>
-
-        {/* Generate all button */}
-        <button
-          onClick={generateAll}
-          disabled={batchRunning}
-          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-semibold bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60 transition-colors"
-        >
-          {batchRunning
-            ? <><Loader2 size={13} className="animate-spin" /> {batchProgress.done}/{batchProgress.total}</>
-            : <><Sparkles size={13} /> Generate all</>
-          }
-        </button>
       </div>
 
       {/* Category rows */}
@@ -112,22 +77,6 @@ export default function GeneratePanel({ onGuideGenerated, existingGuides, dark }
               <span className={`text-[11px] font-semibold ${catDone === topics.length ? 'text-emerald-500' : dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
                 {catDone}/{topics.length}
               </span>
-
-              {/* Generate category */}
-              <button
-                onClick={async e => {
-                  e.stopPropagation();
-                  for (const topic of topics) {
-                    if (status[topicKey(cat, topic)] !== 'done') {
-                      await generate(cat, topic);
-                      await new Promise(r => setTimeout(r, 300));
-                    }
-                  }
-                }}
-                className="text-[11px] font-medium px-2 py-1 rounded-md bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/40"
-              >
-                Generate all
-              </button>
 
               {isExpanded ? <ChevronUp size={14} className={dark ? 'text-zinc-500' : 'text-zinc-400'} /> : <ChevronDown size={14} className={dark ? 'text-zinc-500' : 'text-zinc-400'} />}
             </button>
