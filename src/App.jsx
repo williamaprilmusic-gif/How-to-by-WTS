@@ -42,7 +42,7 @@ function ViewBar({ view, setView, sort, setSort, count, dark }) {
       </select>
       <div className={`flex rounded-lg border overflow-hidden ${dark ? 'border-zinc-700' : 'border-zinc-200'}`}>
         {[['grid', BarChart2], ['list', AlignLeft]].map(([v, Icon]) => (
-          <button key={v} onClick={() => setView(v)} className={`p-1.5 transition-colors ${view === v ? dark ? 'bg-zinc-700 text-white' : 'bg-zinc-900 text-white' : dark ? 'text-zinc-500 hover:bg-zinc-800' : 'text-zinc-400 hover:bg-zinc-50'}`}><Icon size={13} /></button>
+          <button key={v} onClick={() => setView(v)} aria-label={v === 'grid' ? 'Grid view' : 'List view'} aria-pressed={view === v} className={`p-1.5 transition-colors ${view === v ? dark ? 'bg-zinc-700 text-white' : 'bg-zinc-900 text-white' : dark ? 'text-zinc-500 hover:bg-zinc-800' : 'text-zinc-400 hover:bg-zinc-50'}`}><Icon size={13} /></button>
         ))}
       </div>
     </div>

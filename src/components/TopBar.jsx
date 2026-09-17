@@ -23,7 +23,7 @@ export default function TopBar({ query, setQuery, bookmarkCount, onBookmarks, on
             }`}
           />
           {query && (
-            <button onClick={() => setQuery('')} className="absolute right-2.5 top-1/2 -translate-y-1/2">
+            <button onClick={() => setQuery('')} aria-label="Clear search" className="absolute right-2.5 top-1/2 -translate-y-1/2">
               <X size={12} className="text-zinc-400" />
             </button>
           )}
@@ -42,6 +42,7 @@ export default function TopBar({ query, setQuery, bookmarkCount, onBookmarks, on
         {/* Bookmarks */}
         <button
           onClick={onBookmarks}
+          aria-label="View saved guides"
           className={`relative p-2 rounded-lg transition-colors ${dark ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}
         >
           <Bookmark size={17} className={dark ? 'text-zinc-300' : 'text-zinc-600'} />
@@ -55,6 +56,7 @@ export default function TopBar({ query, setQuery, bookmarkCount, onBookmarks, on
         {/* Dark mode */}
         <button
           onClick={() => setDark(d => !d)}
+          aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
           className={`p-2 rounded-lg transition-colors ${dark ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}
         >
           {dark

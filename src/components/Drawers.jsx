@@ -23,7 +23,7 @@ export function BookmarksDrawer({ open, onClose, guides, bookmarks, onOpen, onBo
       <div className={`relative w-full max-w-sm h-full flex flex-col border-l shadow-2xl ${D ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-zinc-200'}`}>
         <div className={`flex items-center justify-between px-5 py-4 border-b ${D ? 'border-zinc-800' : 'border-zinc-100'}`}>
           <h3 className={`text-[15px] font-semibold ${D ? 'text-white' : 'text-zinc-900'}`}>Saved guides</h3>
-          <button onClick={onClose} className={`p-1.5 rounded-lg ${D ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
+          <button onClick={onClose} aria-label="Close" className={`p-1.5 rounded-lg ${D ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
             <X size={17} className={D ? 'text-zinc-400' : 'text-zinc-500'} />
           </button>
         </div>
@@ -54,6 +54,7 @@ export function BookmarksDrawer({ open, onClose, guides, bookmarks, onOpen, onBo
                 </div>
                 <button
                   onClick={e => { e.stopPropagation(); onBookmark(g.id); }}
+                  aria-label={`Remove "${g.title}" from bookmarks`}
                   className={`p-1 self-start ${D ? 'text-zinc-600 hover:text-red-400' : 'text-zinc-300 hover:text-red-400'} transition-colors`}
                 >
                   <X size={14} />
@@ -115,7 +116,7 @@ export function CreateGuideModal({ open, onClose, onCreate, dark }) {
       >
         <div className="flex items-center justify-between mb-6">
           <h3 className={`text-[16px] font-bold ${D ? 'text-white' : 'text-zinc-900'}`}>Submit a how-to guide</h3>
-          <button onClick={onClose} className={`p-1.5 rounded-lg ${D ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
+          <button onClick={onClose} aria-label="Close" className={`p-1.5 rounded-lg ${D ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
             <X size={17} className={D ? 'text-zinc-400' : 'text-zinc-500'} />
           </button>
         </div>

@@ -35,6 +35,7 @@ export default function GuideCard({ guide, onOpen, bookmarked, onBookmark, progr
         {/* Bookmark */}
         <button
           onClick={e => { e.stopPropagation(); onBookmark(guide.id); }}
+          aria-label={bookmarked ? 'Remove bookmark' : 'Add bookmark'}
           className="absolute top-2.5 right-2.5 p-1.5 rounded-lg bg-black/40 backdrop-blur-sm hover:bg-black/60 transition-colors"
         >
           {bookmarked

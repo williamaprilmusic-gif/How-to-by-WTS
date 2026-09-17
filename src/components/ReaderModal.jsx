@@ -19,7 +19,7 @@ function Lightbox({ src, onClose }) {
   if (!src) return null;
   return (
     <div className="fixed inset-0 z-[80] bg-black/95 flex items-center justify-center p-6" onClick={onClose}>
-      <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white">
+      <button onClick={onClose} aria-label="Close image" className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white">
         <X size={20} />
       </button>
       <img src={src} alt="" className="max-h-[90vh] max-w-full rounded-xl object-contain" onClick={e => e.stopPropagation()} />
@@ -38,7 +38,7 @@ function VideoModal({ video, onClose }) {
             <p className="text-white text-[13px] font-medium">{video.title}</p>
             <p className="text-zinc-500 text-[11px]">{video.channel}</p>
           </div>
-          <button onClick={onClose} className="p-1.5 rounded-md hover:bg-white/10 text-white/70"><X size={16} /></button>
+          <button onClick={onClose} aria-label="Close video" className="p-1.5 rounded-md hover:bg-white/10 text-white/70"><X size={16} /></button>
         </div>
         <div className="aspect-video">
           <iframe src={embedUrl} title={video.title} className="w-full h-full"
@@ -137,17 +137,17 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                 <span className={muted}>{guide.difficulty}</span>
               </div>
               <div className="flex items-center gap-0.5 print:hidden">
-                <button onClick={share} className={`relative p-1.5 rounded-md transition-colors ${D ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'}`}>
+                <button onClick={share} aria-label="Copy share link" className={`relative p-1.5 rounded-md transition-colors ${D ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'}`}>
                   <Share2 size={15} />
                   {shareToast && <span className="absolute -top-7 -left-6 bg-zinc-900 text-white text-[11px] px-2 py-1 rounded-md whitespace-nowrap">Link copied!</span>}
                 </button>
-                <button onClick={() => onBookmark(guide.id)} className={`p-1.5 rounded-md transition-colors ${D ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
+                <button onClick={() => onBookmark(guide.id)} aria-label={bookmarked ? 'Remove bookmark' : 'Add bookmark'} className={`p-1.5 rounded-md transition-colors ${D ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
                   {bookmarked ? <BookmarkCheck size={15} className="text-blue-500" /> : <Bookmark size={15} className={muted} />}
                 </button>
-                <button onClick={() => window.print()} title="Print guide" className={`p-1.5 rounded-md transition-colors ${D ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'}`}>
+                <button onClick={() => window.print()} title="Print guide" aria-label="Print guide" className={`p-1.5 rounded-md transition-colors ${D ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'}`}>
                   <FileDown size={15} />
                 </button>
-                <button onClick={onClose} className={`p-1.5 rounded-md transition-colors ml-1 ${D ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'}`}>
+                <button onClick={onClose} aria-label="Close guide" className={`p-1.5 rounded-md transition-colors ml-1 ${D ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'}`}>
                   <X size={18} />
                 </button>
               </div>
@@ -318,6 +318,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                       >
                         <button
                           onClick={e => { e.stopPropagation(); toggleStep(guide.id, step.id); }}
+                          aria-label={isDone ? 'Mark step incomplete' : 'Mark step complete'}
                           className="shrink-0 print:hidden"
                         >
                           {isDone
@@ -347,6 +348,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                           {step.image && (
                             <button
                               onClick={() => setLightbox(step.image)}
+                              aria-label="View larger image"
                               className="relative group w-full sm:w-1/2 float-right sm:ml-5 mb-4 rounded-lg overflow-hidden"
                             >
                               <img src={step.image} alt="" className="w-full h-40 object-cover group-hover:brightness-90 transition-all" />
@@ -362,6 +364,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                           {step.image && (
                             <button
                               onClick={() => setLightbox(step.image)}
+                              aria-label="View larger image"
                               className="sm:hidden relative group w-full rounded-lg overflow-hidden mb-4"
                             >
                               <img src={step.image} alt="" className="w-full h-44 object-cover group-hover:brightness-90" />
