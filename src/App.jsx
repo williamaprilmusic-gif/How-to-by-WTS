@@ -20,7 +20,7 @@ function estimatedMinutes(text) {
 function MobileFilters({ category, setCategory, difficulty, setDifficulty, dark }) {
   const categories = ['All', ...Object.keys(CATEGORY_META)];
   const btn = (active) => `px-3 py-1.5 rounded-lg text-[12px] font-medium whitespace-nowrap transition-colors border ${
-    active ? 'bg-stone-900 text-white border-stone-900' : dark ? 'border-stone-700 text-stone-400 hover:border-stone-500' : 'border-stone-200 text-stone-500 hover:border-stone-400'
+    active ? 'bg-slate-800 text-white border-slate-800' : dark ? 'border-stone-700 text-stone-400 hover:border-stone-500' : 'border-stone-200 text-stone-500 hover:border-stone-400'
   }`;
   return (
     <div className="lg:hidden mb-6 space-y-2.5">
@@ -48,7 +48,7 @@ function ViewBar({ view, setView, sort, setSort, count, dark }) {
       </select>
       <div className={`flex rounded-lg border overflow-hidden ${dark ? 'border-stone-700' : 'border-stone-200'}`}>
         {[['grid', BarChart2], ['list', AlignLeft]].map(([v, Icon]) => (
-          <button key={v} onClick={() => setView(v)} aria-label={v === 'grid' ? 'Grid view' : 'List view'} aria-pressed={view === v} className={`p-1.5 transition-colors ${view === v ? dark ? 'bg-stone-700 text-white' : 'bg-stone-900 text-white' : dark ? 'text-stone-500 hover:bg-stone-800' : 'text-stone-400 hover:bg-stone-50'}`}><Icon size={13} /></button>
+          <button key={v} onClick={() => setView(v)} aria-label={v === 'grid' ? 'Grid view' : 'List view'} aria-pressed={view === v} className={`p-1.5 transition-colors ${view === v ? dark ? 'bg-stone-700 text-white' : 'bg-slate-800 text-white' : dark ? 'text-stone-500 hover:bg-stone-800' : 'text-stone-400 hover:bg-stone-50'}`}><Icon size={13} /></button>
         ))}
       </div>
     </div>
@@ -69,7 +69,7 @@ function FeaturedBanner({ guide, onOpen }) {
           <span className="text-[11px] font-semibold" style={{ color: catMeta.color }}>{guide.category}</span>
         </div>
         <h2 className="text-white text-xl sm:text-2xl font-bold leading-snug max-w-2xl mb-4" style={{ fontFamily: "'Lora', Georgia, serif" }}>{guide.title}</h2>
-        <button className="inline-flex items-center gap-2 bg-white text-stone-900 text-[13px] font-bold px-4 py-2 rounded-xl hover:bg-stone-100 transition-colors">
+        <button className="inline-flex items-center gap-2 bg-white text-slate-800 text-[13px] font-bold px-4 py-2 rounded-xl hover:bg-stone-100 transition-colors">
           Start guide <ChevronRight size={14} />
         </button>
       </div>
@@ -84,7 +84,7 @@ function GuideListRow({ guide, onOpen, bookmarked, onBookmark, progress, dark })
     <div onClick={() => onOpen(guide)} className={`group flex items-center gap-4 px-4 py-3.5 border-b cursor-pointer transition-colors ${dark ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-100 hover:bg-stone-50'}`}>
       <img src={guide.heroImage} alt="" className="w-12 h-12 rounded-lg object-cover shrink-0 hidden sm:block" />
       <div className="flex-1 min-w-0">
-        <h3 className={`text-[14px] font-semibold truncate mb-0.5 group-hover:text-amber-600 transition-colors ${dark ? 'text-stone-100' : 'text-stone-900'}`} style={{ fontFamily: "'Lora', serif" }}>{guide.title}</h3>
+        <h3 className={`text-[14px] font-semibold truncate mb-0.5 group-hover:text-amber-600 transition-colors ${dark ? 'text-stone-100' : 'text-slate-800'}`} style={{ fontFamily: "'Lora', serif" }}>{guide.title}</h3>
         <div className={`flex items-center gap-2 text-[12px] ${dark ? 'text-stone-500' : 'text-stone-400'}`}>
           <span style={{ color: catMeta.color }} className="font-semibold">{guide.category.split(' & ')[0]}</span>
           <span>·</span><span>{guide.difficulty}</span><span>·</span><span>{guide.estimatedTime}</span>
@@ -179,7 +179,7 @@ export default function App() {
             <MobileFilters category={category} setCategory={setCategory} difficulty={difficulty} setDifficulty={setDifficulty} dark={dark} />
 
             <button onClick={() => setShowGenerator(v => !v)}
-              className={`flex items-center gap-2 text-[13px] font-semibold mb-4 ${dark ? 'text-stone-300 hover:text-white' : 'text-stone-600 hover:text-stone-900'}`}>
+              className={`flex items-center gap-2 text-[13px] font-semibold mb-4 ${dark ? 'text-stone-300 hover:text-white' : 'text-stone-600 hover:text-slate-800'}`}>
               <Sparkles size={15} className="text-amber-600" /> AI Guide Generator
               <span className={`text-[11px] px-2 py-0.5 rounded-full ${dark ? 'bg-stone-800 text-stone-400' : 'bg-stone-100 text-stone-400'}`}>{showGenerator ? 'hide' : 'show'}</span>
             </button>

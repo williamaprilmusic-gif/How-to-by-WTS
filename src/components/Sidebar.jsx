@@ -4,8 +4,8 @@ const DIFFICULTIES = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
 export default function Sidebar({ category, setCategory, difficulty, setDifficulty, dark, guideCounts }) {
   const base = `w-full text-left px-2.5 py-1.5 rounded-md text-[13px] font-medium transition-colors flex items-center justify-between`;
-  const active = dark ? 'bg-stone-800 text-white' : 'bg-stone-900 text-white';
-  const inactive = dark ? 'text-stone-400 hover:bg-stone-800/60 hover:text-stone-200' : 'text-stone-500 hover:bg-stone-100 hover:text-stone-900';
+  const active = dark ? 'bg-stone-800 text-white' : 'bg-slate-800 text-white';
+  const inactive = dark ? 'text-stone-400 hover:bg-stone-800/60 hover:text-stone-200' : 'text-stone-500 hover:bg-stone-100 hover:text-slate-800';
 
   return (
     <aside className="hidden lg:flex flex-col w-52 shrink-0 pt-8 pr-6 gap-7">

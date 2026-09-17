@@ -19,7 +19,7 @@ export default function TopBar({ query, setQuery, bookmarkCount, onBookmarks, on
             className={`w-full pl-8 pr-8 py-1.5 rounded-lg text-[13px] border transition-all focus:outline-none focus:ring-2 focus:ring-amber-600/20 ${
               dark
                 ? 'bg-stone-900 border-stone-700 text-stone-100 placeholder:text-stone-600 focus:border-stone-500'
-                : 'bg-stone-50 border-stone-200 text-stone-900 placeholder:text-stone-400 focus:border-stone-400'
+                : 'bg-stone-50 border-stone-200 text-slate-800 placeholder:text-stone-400 focus:border-stone-400'
             }`}
           />
           {query && (
@@ -74,7 +74,7 @@ export default function TopBar({ query, setQuery, bookmarkCount, onBookmarks, on
           onChange={e => setQuery(e.target.value)}
           placeholder="Search any how-to…"
           className={`w-full pl-8 pr-3 py-2 rounded-lg text-[13px] border focus:outline-none ${
-            dark ? 'bg-stone-900 border-stone-700 text-stone-100' : 'bg-stone-50 border-stone-200 text-stone-900'
+            dark ? 'bg-stone-900 border-stone-700 text-stone-100' : 'bg-stone-50 border-stone-200 text-slate-800'
           }`}
         />
       </div>

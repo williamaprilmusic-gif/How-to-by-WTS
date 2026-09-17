@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { STARTER_GUIDES } from '../lib/starterGuides.js';
 
 export function useLocalStorage(key, initialValue) {
   const [value, setValue] = useState(() => {
@@ -18,7 +19,7 @@ export function useLocalStorage(key, initialValue) {
 }
 
 export function useGuideStore() {
-  const [guides, setGuides] = useLocalStorage('howto_guides', []);
+  const [guides, setGuides] = useLocalStorage('howto_guides', STARTER_GUIDES);
   const [bookmarks, setBookmarks] = useLocalStorage('howto_bookmarks', []);
   const [completedMap, setCompletedMap] = useLocalStorage('howto_completed', {});
   const [generating, setGenerating] = useState({});

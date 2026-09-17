@@ -117,7 +117,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
   const D = dark;
   const bg = D ? 'bg-[#111]' : 'bg-white';
   const border = D ? 'border-stone-800' : 'border-stone-200';
-  const text = D ? 'text-stone-100' : 'text-stone-900';
+  const text = D ? 'text-stone-100' : 'text-slate-800';
   const muted = D ? 'text-stone-500' : 'text-stone-400';
   const subtle = D ? 'text-stone-400' : 'text-stone-600';
 
@@ -139,7 +139,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
               <div className="flex items-center gap-0.5 print:hidden">
                 <button onClick={share} aria-label="Copy share link" className={`relative p-1.5 rounded-md transition-colors ${D ? 'hover:bg-stone-800 text-stone-400' : 'hover:bg-stone-100 text-stone-500'}`}>
                   <Share2 size={15} />
-                  {shareToast && <span className="absolute -top-7 -left-6 bg-stone-900 text-white text-[11px] px-2 py-1 rounded-md whitespace-nowrap">Link copied!</span>}
+                  {shareToast && <span className="absolute -top-7 -left-6 bg-slate-800 text-white text-[11px] px-2 py-1 rounded-md whitespace-nowrap">Link copied!</span>}
                 </button>
                 <button onClick={() => onBookmark(guide.id)} aria-label={bookmarked ? 'Remove bookmark' : 'Add bookmark'} className={`p-1.5 rounded-md transition-colors ${D ? 'hover:bg-stone-800' : 'hover:bg-stone-100'}`}>
                   {bookmarked ? <BookmarkCheck size={15} className="text-amber-600" /> : <Bookmark size={15} className={muted} />}
@@ -274,7 +274,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/35 transition-colors">
                       <div className="w-14 h-14 rounded-full bg-white/95 flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
-                        <Play size={22} className="text-stone-900 ml-1" fill="currentColor" />
+                        <Play size={22} className="text-slate-800 ml-1" fill="currentColor" />
                       </div>
                     </div>
                     <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/70 to-transparent">
@@ -441,7 +441,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                         >
                           <img src={g.heroImage} alt="" className="w-14 h-14 rounded-lg object-cover shrink-0" />
                           <div className="min-w-0">
-                            <p className={`text-[13px] font-semibold line-clamp-2 mb-1 ${D ? 'text-stone-100' : 'text-stone-900'}`}
+                            <p className={`text-[13px] font-semibold line-clamp-2 mb-1 ${D ? 'text-stone-100' : 'text-slate-800'}`}
                               style={{ fontFamily: "'Lora', serif" }}>{g.title}</p>
                             <span className="text-[11px] font-semibold" style={{ color: meta.color }}>{g.category.split(' & ')[0]}</span>
                           </div>

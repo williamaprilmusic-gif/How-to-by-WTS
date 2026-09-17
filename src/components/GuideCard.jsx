@@ -77,7 +77,7 @@ export default function GuideCard({ guide, onOpen, bookmarked, onBookmark, progr
         </div>
 
         <h3
-          className={`text-[14px] font-semibold leading-snug line-clamp-2 mb-1.5 group-hover:text-amber-600 transition-colors ${dark ? 'text-stone-100' : 'text-stone-900'}`}
+          className={`text-[14px] font-semibold leading-snug line-clamp-2 mb-1.5 group-hover:text-amber-600 transition-colors ${dark ? 'text-stone-100' : 'text-slate-800'}`}
           style={{ fontFamily: "'Lora', Georgia, serif" }}
         >
           {guide.title}

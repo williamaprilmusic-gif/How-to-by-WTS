@@ -39,7 +39,7 @@ export default function GeneratePanel({ onGuideGenerated, existingGuides, dark }
           <Sparkles size={16} className="text-amber-600" />
         </div>
         <div className="flex-1 min-w-0">
-          <h2 className={`text-[14px] font-semibold ${dark ? 'text-stone-100' : 'text-stone-900'}`}>
+          <h2 className={`text-[14px] font-semibold ${dark ? 'text-stone-100' : 'text-slate-800'}`}>
             AI Guide Generator
           </h2>
           <p className={`text-[12px] ${dark ? 'text-stone-500' : 'text-stone-400'}`}>
