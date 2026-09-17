@@ -32,11 +32,11 @@ function VideoModal({ video, onClose }) {
   const embedUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
   return (
     <div className="fixed inset-0 z-[80] bg-black/90 flex items-center justify-center p-4 sm:p-10" onClick={onClose}>
-      <div className="w-full max-w-3xl bg-zinc-950 rounded-xl overflow-hidden" onClick={e => e.stopPropagation()}>
+      <div className="w-full max-w-3xl bg-stone-950 rounded-xl overflow-hidden" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
           <div>
             <p className="text-white text-[13px] font-medium">{video.title}</p>
-            <p className="text-zinc-500 text-[11px]">{video.channel}</p>
+            <p className="text-stone-500 text-[11px]">{video.channel}</p>
           </div>
           <button onClick={onClose} aria-label="Close video" className="p-1.5 rounded-md hover:bg-white/10 text-white/70"><X size={16} /></button>
         </div>
@@ -116,10 +116,10 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
 
   const D = dark;
   const bg = D ? 'bg-[#111]' : 'bg-white';
-  const border = D ? 'border-zinc-800' : 'border-zinc-200';
-  const text = D ? 'text-zinc-100' : 'text-zinc-900';
-  const muted = D ? 'text-zinc-500' : 'text-zinc-400';
-  const subtle = D ? 'text-zinc-400' : 'text-zinc-600';
+  const border = D ? 'border-stone-800' : 'border-stone-200';
+  const text = D ? 'text-stone-100' : 'text-stone-900';
+  const muted = D ? 'text-stone-500' : 'text-stone-400';
+  const subtle = D ? 'text-stone-400' : 'text-stone-600';
 
   return (
     <>
@@ -137,17 +137,17 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                 <span className={muted}>{guide.difficulty}</span>
               </div>
               <div className="flex items-center gap-0.5 print:hidden">
-                <button onClick={share} aria-label="Copy share link" className={`relative p-1.5 rounded-md transition-colors ${D ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'}`}>
+                <button onClick={share} aria-label="Copy share link" className={`relative p-1.5 rounded-md transition-colors ${D ? 'hover:bg-stone-800 text-stone-400' : 'hover:bg-stone-100 text-stone-500'}`}>
                   <Share2 size={15} />
-                  {shareToast && <span className="absolute -top-7 -left-6 bg-zinc-900 text-white text-[11px] px-2 py-1 rounded-md whitespace-nowrap">Link copied!</span>}
+                  {shareToast && <span className="absolute -top-7 -left-6 bg-stone-900 text-white text-[11px] px-2 py-1 rounded-md whitespace-nowrap">Link copied!</span>}
                 </button>
-                <button onClick={() => onBookmark(guide.id)} aria-label={bookmarked ? 'Remove bookmark' : 'Add bookmark'} className={`p-1.5 rounded-md transition-colors ${D ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
-                  {bookmarked ? <BookmarkCheck size={15} className="text-blue-500" /> : <Bookmark size={15} className={muted} />}
+                <button onClick={() => onBookmark(guide.id)} aria-label={bookmarked ? 'Remove bookmark' : 'Add bookmark'} className={`p-1.5 rounded-md transition-colors ${D ? 'hover:bg-stone-800' : 'hover:bg-stone-100'}`}>
+                  {bookmarked ? <BookmarkCheck size={15} className="text-amber-600" /> : <Bookmark size={15} className={muted} />}
                 </button>
-                <button onClick={() => window.print()} title="Print guide" aria-label="Print guide" className={`p-1.5 rounded-md transition-colors ${D ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'}`}>
+                <button onClick={() => window.print()} title="Print guide" aria-label="Print guide" className={`p-1.5 rounded-md transition-colors ${D ? 'hover:bg-stone-800 text-stone-400' : 'hover:bg-stone-100 text-stone-500'}`}>
                   <FileDown size={15} />
                 </button>
-                <button onClick={onClose} aria-label="Close guide" className={`p-1.5 rounded-md transition-colors ml-1 ${D ? 'hover:bg-zinc-800 text-zinc-400' : 'hover:bg-zinc-100 text-zinc-500'}`}>
+                <button onClick={onClose} aria-label="Close guide" className={`p-1.5 rounded-md transition-colors ml-1 ${D ? 'hover:bg-stone-800 text-stone-400' : 'hover:bg-stone-100 text-stone-500'}`}>
                   <X size={18} />
                 </button>
               </div>
@@ -180,9 +180,9 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                   : <span>{pct}%</span>
                 }
               </div>
-              <div className={`h-1.5 rounded-full overflow-hidden ${D ? 'bg-zinc-800' : 'bg-zinc-100'}`}>
+              <div className={`h-1.5 rounded-full overflow-hidden ${D ? 'bg-stone-800' : 'bg-stone-100'}`}>
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${allDone ? 'bg-emerald-500' : 'bg-blue-500'}`}
+                  className={`h-full rounded-full transition-all duration-500 ${allDone ? 'bg-emerald-500' : 'bg-amber-600'}`}
                   style={{ width: `${pct}%` }}
                 />
               </div>
@@ -191,28 +191,28 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
             {/* TOC toggle */}
             <button
               onClick={() => setTocOpen(v => !v)}
-              className={`flex items-center gap-1.5 text-[12px] font-medium mt-2 transition-colors print:hidden ${D ? 'text-zinc-500 hover:text-zinc-300' : 'text-zinc-400 hover:text-zinc-700'}`}
+              className={`flex items-center gap-1.5 text-[12px] font-medium mt-2 transition-colors print:hidden ${D ? 'text-stone-500 hover:text-stone-300' : 'text-stone-400 hover:text-stone-700'}`}
             >
               <AlignLeft size={12} /> Contents
               <ChevronDown size={12} className={`transition-transform ${tocOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {tocOpen && (
-              <div className={`mt-2 rounded-xl border overflow-hidden print:hidden ${D ? 'border-zinc-700 bg-zinc-900' : 'border-zinc-200 bg-zinc-50'}`}>
+              <div className={`mt-2 rounded-xl border overflow-hidden print:hidden ${D ? 'border-stone-700 bg-stone-900' : 'border-stone-200 bg-stone-50'}`}>
                 {guide.steps.map((step, idx) => (
                   <button
                     key={step.id}
                     onClick={() => goTo(idx)}
                     className={`w-full text-left flex items-center gap-2.5 px-4 py-2.5 text-[12px] border-b last:border-0 transition-colors ${
-                      D ? 'border-zinc-800 hover:bg-zinc-800' : 'border-zinc-200 hover:bg-white'
+                      D ? 'border-stone-800 hover:bg-stone-800' : 'border-stone-200 hover:bg-white'
                     } ${idx === activeStep
-                      ? D ? 'bg-zinc-800 text-blue-400' : 'bg-white text-blue-600'
-                      : D ? 'text-zinc-400' : 'text-zinc-500'
+                      ? D ? 'bg-stone-800 text-amber-500' : 'bg-white text-amber-600'
+                      : D ? 'text-stone-400' : 'text-stone-500'
                     }`}
                   >
                     {done[step.id]
                       ? <CheckCircle2 size={13} className="text-emerald-500 shrink-0" />
-                      : <span className={`w-4 h-4 rounded-full border text-[9px] flex items-center justify-center font-bold shrink-0 ${D ? 'border-zinc-600 text-zinc-600' : 'border-zinc-300 text-zinc-400'}`}>{idx + 1}</span>
+                      : <span className={`w-4 h-4 rounded-full border text-[9px] flex items-center justify-center font-bold shrink-0 ${D ? 'border-stone-600 text-stone-600' : 'border-stone-300 text-stone-400'}`}>{idx + 1}</span>
                     }
                     <span className="truncate">{step.title}</span>
                   </button>
@@ -230,13 +230,13 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
 
               {/* Tools / Ingredients list */}
               {guide.tools?.length > 0 && (
-                <div className={`rounded-xl border p-4 mb-6 ${D ? 'border-zinc-800 bg-zinc-900/60' : 'border-zinc-200 bg-zinc-50'}`}>
-                  <h3 className={`text-[12px] font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5 ${D ? 'text-zinc-400' : 'text-zinc-500'}`}>
+                <div className={`rounded-xl border p-4 mb-6 ${D ? 'border-stone-800 bg-stone-900/60' : 'border-stone-200 bg-stone-50'}`}>
+                  <h3 className={`text-[12px] font-bold uppercase tracking-widest mb-3 flex items-center gap-1.5 ${D ? 'text-stone-400' : 'text-stone-500'}`}>
                     <Wrench size={12} /> What you&apos;ll need
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {guide.tools.map((tool, i) => (
-                      <span key={i} className={`text-[12px] px-2.5 py-1 rounded-full border ${D ? 'border-zinc-700 text-zinc-300 bg-zinc-800' : 'border-zinc-200 text-zinc-600 bg-white'}`}>
+                      <span key={i} className={`text-[12px] px-2.5 py-1 rounded-full border ${D ? 'border-stone-700 text-stone-300 bg-stone-800' : 'border-stone-200 text-stone-600 bg-white'}`}>
                         {tool}
                       </span>
                     ))}
@@ -259,7 +259,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
               {/* Featured video */}
               {featuredVideo && (
                 <div className="mb-7 print:hidden">
-                  <h3 className={`text-[12px] font-bold uppercase tracking-widest mb-2.5 ${D ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                  <h3 className={`text-[12px] font-bold uppercase tracking-widest mb-2.5 ${D ? 'text-stone-500' : 'text-stone-400'}`}>
                     Watch: Related Tutorial
                   </h3>
                   <button
@@ -274,7 +274,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/35 transition-colors">
                       <div className="w-14 h-14 rounded-full bg-white/95 flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
-                        <Play size={22} className="text-zinc-900 ml-1" fill="currentColor" />
+                        <Play size={22} className="text-stone-900 ml-1" fill="currentColor" />
                       </div>
                     </div>
                     <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/70 to-transparent">
@@ -301,8 +301,8 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                         isDone
                           ? D ? 'border-emerald-900/50' : 'border-emerald-200'
                           : isActive
-                          ? D ? 'border-blue-800/70' : 'border-blue-200'
-                          : D ? 'border-zinc-800' : 'border-zinc-200'
+                          ? D ? 'border-amber-800/70' : 'border-amber-200'
+                          : D ? 'border-stone-800' : 'border-stone-200'
                       }`}
                     >
                       {/* Step header — always visible */}
@@ -312,8 +312,8 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                           isDone
                             ? D ? 'bg-emerald-950/30' : 'bg-emerald-50/60'
                             : isActive
-                            ? D ? 'bg-blue-950/30' : 'bg-blue-50/50'
-                            : D ? 'bg-zinc-900/40 hover:bg-zinc-800/60' : 'bg-zinc-50/60 hover:bg-zinc-100/60'
+                            ? D ? 'bg-amber-950/30' : 'bg-amber-50/50'
+                            : D ? 'bg-stone-900/40 hover:bg-stone-800/60' : 'bg-stone-50/60 hover:bg-stone-100/60'
                         }`}
                       >
                         <button
@@ -323,16 +323,16 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                         >
                           {isDone
                             ? <CheckCircle2 size={20} className="text-emerald-500" />
-                            : <Circle size={20} className={D ? 'text-zinc-700' : 'text-zinc-300'} />
+                            : <Circle size={20} className={D ? 'text-stone-700' : 'text-stone-300'} />
                           }
                         </button>
-                        <span className={`text-[11px] font-bold uppercase tracking-widest w-12 shrink-0 ${isActive ? 'text-blue-500' : muted}`}>
+                        <span className={`text-[11px] font-bold uppercase tracking-widest w-12 shrink-0 ${isActive ? 'text-amber-600' : muted}`}>
                           {String(idx + 1).padStart(2, '0')}
                         </span>
                         <h4
                           className={`flex-1 text-[14px] font-semibold ${
                             isDone
-                              ? D ? 'line-through text-zinc-600' : 'line-through text-zinc-400'
+                              ? D ? 'line-through text-stone-600' : 'line-through text-stone-400'
                               : text
                           }`}
                           style={{ fontFamily: "'Lora', Georgia, serif" }}
@@ -343,7 +343,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                       </button>
 
                       {/* Step body — collapsed on screen unless active, always shown when printing */}
-                      <div className={`${isActive ? 'block' : 'hidden print:block'} px-5 pb-5 pt-4 ${D ? 'bg-zinc-900/20' : ''}`}>
+                      <div className={`${isActive ? 'block' : 'hidden print:block'} px-5 pb-5 pt-4 ${D ? 'bg-stone-900/20' : ''}`}>
                           {/* Step image */}
                           {step.image && (
                             <button
@@ -378,7 +378,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
 
                           {/* Code snippet */}
                           {step.codeSnippet && (
-                            <pre className={`rounded-xl p-4 text-[12px] overflow-x-auto mb-4 leading-relaxed font-mono ${D ? 'bg-zinc-950 text-zinc-300' : 'bg-zinc-900 text-zinc-200'}`}>
+                            <pre className={`rounded-xl p-4 text-[12px] overflow-x-auto mb-4 leading-relaxed font-mono ${D ? 'bg-stone-950 text-stone-300' : 'bg-stone-900 text-stone-200'}`}>
                               <code>{step.codeSnippet}</code>
                             </pre>
                           )}
@@ -400,23 +400,23 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
 
               {/* ── Sources ──────────────────────────────────────── */}
               {guide.sources?.length > 0 && (
-                <div className={`mt-10 pt-8 border-t ${D ? 'border-zinc-800' : 'border-zinc-200'}`}>
-                  <h3 className={`text-[11px] font-bold uppercase tracking-widest mb-3 ${D ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                <div className={`mt-10 pt-8 border-t ${D ? 'border-stone-800' : 'border-stone-200'}`}>
+                  <h3 className={`text-[11px] font-bold uppercase tracking-widest mb-3 ${D ? 'text-stone-500' : 'text-stone-400'}`}>
                     Sources & References
                   </h3>
-                  <div className={`divide-y ${D ? 'divide-zinc-800' : 'divide-zinc-100'}`}>
+                  <div className={`divide-y ${D ? 'divide-stone-800' : 'divide-stone-100'}`}>
                     {guide.sources.map((s, i) => {
                       const Icon = SOURCE_ICON[s.type] || Link2;
                       return (
                         <a key={i} href={s.url} target="_blank" rel="noopener noreferrer"
-                          className={`flex items-center gap-3 py-3 group transition-colors rounded-lg px-2 -mx-2 ${D ? 'hover:bg-zinc-800/50' : 'hover:bg-zinc-50'}`}
+                          className={`flex items-center gap-3 py-3 group transition-colors rounded-lg px-2 -mx-2 ${D ? 'hover:bg-stone-800/50' : 'hover:bg-stone-50'}`}
                         >
-                          <Icon size={14} className={`shrink-0 group-hover:text-blue-500 ${D ? 'text-zinc-600' : 'text-zinc-400'}`} />
+                          <Icon size={14} className={`shrink-0 group-hover:text-amber-600 ${D ? 'text-stone-600' : 'text-stone-400'}`} />
                           <div className="flex-1 min-w-0">
-                            <div className={`text-[13px] font-medium truncate ${D ? 'text-zinc-200' : 'text-zinc-800'}`}>{s.title}</div>
-                            <div className={`text-[11px] ${D ? 'text-zinc-600' : 'text-zinc-400'}`}>{s.domain}</div>
+                            <div className={`text-[13px] font-medium truncate ${D ? 'text-stone-200' : 'text-stone-800'}`}>{s.title}</div>
+                            <div className={`text-[11px] ${D ? 'text-stone-600' : 'text-stone-400'}`}>{s.domain}</div>
                           </div>
-                          <ExternalLink size={12} className={`shrink-0 group-hover:text-blue-500 ${D ? 'text-zinc-700' : 'text-zinc-300'}`} />
+                          <ExternalLink size={12} className={`shrink-0 group-hover:text-amber-600 ${D ? 'text-stone-700' : 'text-stone-300'}`} />
                         </a>
                       );
                     })}
@@ -426,8 +426,8 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
 
               {/* ── Related guides ─────────────────────────────────── */}
               {related.length > 0 && (
-                <div className={`mt-10 pt-8 border-t print:hidden ${D ? 'border-zinc-800' : 'border-zinc-200'}`}>
-                  <h3 className={`text-[11px] font-bold uppercase tracking-widest mb-3 ${D ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                <div className={`mt-10 pt-8 border-t print:hidden ${D ? 'border-stone-800' : 'border-stone-200'}`}>
+                  <h3 className={`text-[11px] font-bold uppercase tracking-widest mb-3 ${D ? 'text-stone-500' : 'text-stone-400'}`}>
                     Related guides
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -437,11 +437,11 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                         <button
                           key={g.id}
                           onClick={() => onOpen?.(g)}
-                          className={`flex items-center gap-3 p-2.5 rounded-xl border text-left transition-colors ${D ? 'border-zinc-800 hover:bg-zinc-900' : 'border-zinc-200 hover:bg-zinc-50'}`}
+                          className={`flex items-center gap-3 p-2.5 rounded-xl border text-left transition-colors ${D ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-200 hover:bg-stone-50'}`}
                         >
                           <img src={g.heroImage} alt="" className="w-14 h-14 rounded-lg object-cover shrink-0" />
                           <div className="min-w-0">
-                            <p className={`text-[13px] font-semibold line-clamp-2 mb-1 ${D ? 'text-zinc-100' : 'text-zinc-900'}`}
+                            <p className={`text-[13px] font-semibold line-clamp-2 mb-1 ${D ? 'text-stone-100' : 'text-stone-900'}`}
                               style={{ fontFamily: "'Lora', serif" }}>{g.title}</p>
                             <span className="text-[11px] font-semibold" style={{ color: meta.color }}>{g.category.split(' & ')[0]}</span>
                           </div>
@@ -459,7 +459,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
             <button
               onClick={() => goTo(activeStep - 1)}
               disabled={activeStep <= 0}
-              className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-lg transition-colors disabled:opacity-30 disabled:pointer-events-none ${D ? 'text-zinc-400 hover:bg-zinc-800' : 'text-zinc-500 hover:bg-zinc-100'}`}
+              className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-lg transition-colors disabled:opacity-30 disabled:pointer-events-none ${D ? 'text-stone-400 hover:bg-stone-800' : 'text-stone-500 hover:bg-stone-100'}`}
             >
               <ChevronLeft size={15} /> Prev
             </button>
@@ -469,7 +469,7 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
             <button
               onClick={markAndNext}
               disabled={activeStep >= guide.steps.length - 1}
-              className="inline-flex items-center gap-1.5 text-[13px] font-semibold px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-30 disabled:pointer-events-none transition-colors"
+              className="inline-flex items-center gap-1.5 text-[13px] font-semibold px-4 py-2 rounded-lg bg-amber-700 text-white hover:bg-amber-800 disabled:opacity-30 disabled:pointer-events-none transition-colors"
             >
               Mark done & next <ChevronRight size={14} />
             </button>

@@ -16,10 +16,10 @@ export default function Logo({ dark, size = 26 }) {
         </g>
       </svg>
       <div className="leading-none">
-        <div className={`text-[15px] font-bold tracking-tight ${dark ? 'text-white' : 'text-gray-900'}`}>
+        <div className={`text-[15px] font-bold tracking-tight ${dark ? 'text-white' : 'text-stone-900'}`}>
           How To
         </div>
-        <div className={`text-[10px] font-medium tracking-[0.18em] uppercase ${dark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+        <div className={`text-[10px] font-medium tracking-[0.18em] uppercase ${dark ? 'text-stone-500' : 'text-stone-400'}`}>
           by WTS
         </div>
       </div>

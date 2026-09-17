@@ -20,19 +20,19 @@ export function BookmarksDrawer({ open, onClose, guides, bookmarks, onOpen, onBo
   return (
     <div className="fixed inset-0 z-50 flex justify-end">
       <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" onClick={onClose} />
-      <div className={`relative w-full max-w-sm h-full flex flex-col border-l shadow-2xl ${D ? 'bg-zinc-950 border-zinc-800' : 'bg-white border-zinc-200'}`}>
-        <div className={`flex items-center justify-between px-5 py-4 border-b ${D ? 'border-zinc-800' : 'border-zinc-100'}`}>
-          <h3 className={`text-[15px] font-semibold ${D ? 'text-white' : 'text-zinc-900'}`}>Saved guides</h3>
-          <button onClick={onClose} aria-label="Close" className={`p-1.5 rounded-lg ${D ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
-            <X size={17} className={D ? 'text-zinc-400' : 'text-zinc-500'} />
+      <div className={`relative w-full max-w-sm h-full flex flex-col border-l shadow-2xl ${D ? 'bg-stone-950 border-stone-800' : 'bg-white border-stone-200'}`}>
+        <div className={`flex items-center justify-between px-5 py-4 border-b ${D ? 'border-stone-800' : 'border-stone-100'}`}>
+          <h3 className={`text-[15px] font-semibold ${D ? 'text-white' : 'text-stone-900'}`}>Saved guides</h3>
+          <button onClick={onClose} aria-label="Close" className={`p-1.5 rounded-lg ${D ? 'hover:bg-stone-800' : 'hover:bg-stone-100'}`}>
+            <X size={17} className={D ? 'text-stone-400' : 'text-stone-500'} />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto">
           {saved.length === 0 && (
             <div className="flex flex-col items-center justify-center h-48 gap-2">
-              <p className={`text-[13px] ${D ? 'text-zinc-600' : 'text-zinc-400'}`}>No saved guides yet</p>
-              <p className={`text-[12px] ${D ? 'text-zinc-700' : 'text-zinc-300'}`}>Click the bookmark icon on any guide</p>
+              <p className={`text-[13px] ${D ? 'text-stone-600' : 'text-stone-400'}`}>No saved guides yet</p>
+              <p className={`text-[12px] ${D ? 'text-stone-700' : 'text-stone-300'}`}>Click the bookmark icon on any guide</p>
             </div>
           )}
           {saved.map(g => {
@@ -40,22 +40,22 @@ export function BookmarksDrawer({ open, onClose, guides, bookmarks, onOpen, onBo
             return (
               <div
                 key={g.id}
-                className={`flex gap-3 p-4 border-b cursor-pointer transition-colors ${D ? 'border-zinc-800 hover:bg-zinc-900' : 'border-zinc-100 hover:bg-zinc-50'}`}
+                className={`flex gap-3 p-4 border-b cursor-pointer transition-colors ${D ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-100 hover:bg-stone-50'}`}
                 onClick={() => { onOpen(g); onClose(); }}
               >
                 <img src={g.heroImage} alt="" className="w-14 h-14 rounded-lg object-cover shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className={`text-[13px] font-semibold line-clamp-2 mb-1 ${D ? 'text-zinc-100' : 'text-zinc-900'}`}
+                  <p className={`text-[13px] font-semibold line-clamp-2 mb-1 ${D ? 'text-stone-100' : 'text-stone-900'}`}
                     style={{ fontFamily: "'Lora', serif" }}>{g.title}</p>
                   <div className="flex items-center gap-2">
                     <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${diffMeta.bg} ${diffMeta.text}`}>{g.difficulty}</span>
-                    <span className={`text-[11px] flex items-center gap-1 ${D ? 'text-zinc-600' : 'text-zinc-400'}`}><Clock size={10} /> {g.estimatedTime}</span>
+                    <span className={`text-[11px] flex items-center gap-1 ${D ? 'text-stone-600' : 'text-stone-400'}`}><Clock size={10} /> {g.estimatedTime}</span>
                   </div>
                 </div>
                 <button
                   onClick={e => { e.stopPropagation(); onBookmark(g.id); }}
                   aria-label={`Remove "${g.title}" from bookmarks`}
-                  className={`p-1 self-start ${D ? 'text-zinc-600 hover:text-red-400' : 'text-zinc-300 hover:text-red-400'} transition-colors`}
+                  className={`p-1 self-start ${D ? 'text-stone-600 hover:text-red-400' : 'text-stone-300 hover:text-red-400'} transition-colors`}
                 >
                   <X size={14} />
                 </button>
@@ -103,21 +103,21 @@ export function CreateGuideModal({ open, onClose, onCreate, dark }) {
     onClose();
   };
 
-  const inp = `w-full px-3 py-2.5 rounded-xl text-[13px] border transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/20 ${
-    D ? 'bg-zinc-800 border-zinc-700 text-zinc-100 placeholder:text-zinc-600 focus:border-zinc-500' : 'bg-white border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400'
+  const inp = `w-full px-3 py-2.5 rounded-xl text-[13px] border transition-all focus:outline-none focus:ring-2 focus:ring-amber-600/20 ${
+    D ? 'bg-stone-800 border-stone-700 text-stone-100 placeholder:text-stone-600 focus:border-stone-500' : 'bg-white border-stone-200 text-stone-900 placeholder:text-stone-400 focus:border-stone-400'
   }`;
-  const lbl = `text-[11px] font-bold uppercase tracking-wide mb-1.5 block ${D ? 'text-zinc-500' : 'text-zinc-400'}`;
+  const lbl = `text-[11px] font-bold uppercase tracking-wide mb-1.5 block ${D ? 'text-stone-500' : 'text-stone-400'}`;
 
   return (
     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4" onClick={onClose}>
       <div
-        className={`w-full max-w-lg rounded-2xl border p-6 max-h-[90vh] overflow-y-auto shadow-2xl ${D ? 'bg-zinc-900 border-zinc-800' : 'bg-white border-zinc-200'}`}
+        className={`w-full max-w-lg rounded-2xl border p-6 max-h-[90vh] overflow-y-auto shadow-2xl ${D ? 'bg-stone-900 border-stone-800' : 'bg-white border-stone-200'}`}
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-6">
-          <h3 className={`text-[16px] font-bold ${D ? 'text-white' : 'text-zinc-900'}`}>Submit a how-to guide</h3>
-          <button onClick={onClose} aria-label="Close" className={`p-1.5 rounded-lg ${D ? 'hover:bg-zinc-800' : 'hover:bg-zinc-100'}`}>
-            <X size={17} className={D ? 'text-zinc-400' : 'text-zinc-500'} />
+          <h3 className={`text-[16px] font-bold ${D ? 'text-white' : 'text-stone-900'}`}>Submit a how-to guide</h3>
+          <button onClick={onClose} aria-label="Close" className={`p-1.5 rounded-lg ${D ? 'hover:bg-stone-800' : 'hover:bg-stone-100'}`}>
+            <X size={17} className={D ? 'text-stone-400' : 'text-stone-500'} />
           </button>
         </div>
 
@@ -157,7 +157,7 @@ export function CreateGuideModal({ open, onClose, onCreate, dark }) {
         <button
           onClick={submit}
           disabled={!ok}
-          className="w-full mt-6 flex items-center justify-center gap-2 bg-blue-600 text-white text-[13px] font-semibold py-3 rounded-xl hover:bg-blue-700 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+          className="w-full mt-6 flex items-center justify-center gap-2 bg-amber-700 text-white text-[13px] font-semibold py-3 rounded-xl hover:bg-amber-800 disabled:opacity-40 disabled:pointer-events-none transition-colors"
         >
           Publish guide <ArrowRight size={15} />
         </button>
