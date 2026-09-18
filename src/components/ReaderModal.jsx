@@ -107,11 +107,23 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
     if (activeStep < guide.steps.length - 1) goTo(activeStep + 1);
   };
 
-  const share = () => {
+  const share = async () => {
     const url = `${window.location.origin}#guide/${guide.slug}`;
-    try { navigator.clipboard.writeText(url); } catch (err) { console.error(err); }
-    setShareToast(true);
-    setTimeout(() => setShareToast(false), 2000);
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: guide.title, text: guide.summary, url });
+      } catch (err) {
+        if (err.name !== 'AbortError') console.error(err);
+      }
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareToast(true);
+      setTimeout(() => setShareToast(false), 2000);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const D = dark;

@@ -81,7 +81,13 @@ function GuideListRow({ guide, onOpen, bookmarked, onBookmark, progress, dark })
   const catMeta = CATEGORY_META[guide.category] || {};
   const { pct } = progress;
   return (
-    <div onClick={() => onOpen(guide)} className={`group flex items-center gap-4 px-4 py-3.5 border-b cursor-pointer transition-colors ${dark ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-100 hover:bg-stone-50'}`}>
+    <div
+      onClick={() => onOpen(guide)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(guide); } }}
+      className={`group flex items-center gap-4 px-4 py-3.5 border-b cursor-pointer transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-amber-600 ${dark ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-100 hover:bg-stone-50'}`}
+    >
       <img src={guide.heroImage} alt="" className="w-12 h-12 rounded-lg object-cover shrink-0 hidden sm:block" />
       <div className="flex-1 min-w-0">
         <h3 className={`text-[14px] font-semibold truncate mb-0.5 group-hover:text-amber-600 transition-colors ${dark ? 'text-stone-100' : 'text-slate-800'}`} style={{ fontFamily: "'Lora', serif" }}>{guide.title}</h3>
@@ -124,7 +130,11 @@ export default function App() {
     if (category !== 'All') list = list.filter(g => g.category === category);
     if (difficulty !== 'All') list = list.filter(g => g.difficulty === difficulty);
     const q = query.trim().toLowerCase();
-    if (q) list = list.filter(g => [g.title, g.summary, g.category, g.difficulty, ...(g.tags || [])].join(' ').toLowerCase().includes(q));
+    if (q) list = list.filter(g => [
+      g.title, g.summary, g.category, g.difficulty,
+      ...(g.tags || []),
+      ...(g.steps || []).flatMap(s => [s.title, s.content]),
+    ].join(' ').toLowerCase().includes(q));
     if (sort === 'popular') list.sort((a, b) => b.popularity - a.popularity);
     if (sort === 'newest') list.sort((a, b) => new Date(b.published) - new Date(a.published));
     if (sort === 'quickest') list.sort((a, b) => estimatedMinutes(a.estimatedTime) - estimatedMinutes(b.estimatedTime));

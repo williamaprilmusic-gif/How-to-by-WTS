@@ -40,7 +40,10 @@ export function BookmarksDrawer({ open, onClose, guides, bookmarks, onOpen, onBo
             return (
               <div
                 key={g.id}
-                className={`flex gap-3 p-4 border-b cursor-pointer transition-colors ${D ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-100 hover:bg-stone-50'}`}
+                role="button"
+                tabIndex={0}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(g); onClose(); } }}
+                className={`flex gap-3 p-4 border-b cursor-pointer transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-amber-600 ${D ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-100 hover:bg-stone-50'}`}
                 onClick={() => { onOpen(g); onClose(); }}
               >
                 <img src={g.heroImage} alt="" className="w-14 h-14 rounded-lg object-cover shrink-0" />

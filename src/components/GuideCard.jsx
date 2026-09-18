@@ -9,7 +9,10 @@ export default function GuideCard({ guide, onOpen, bookmarked, onBookmark, progr
   return (
     <div
       onClick={() => onOpen(guide)}
-      className={`group cursor-pointer rounded-xl overflow-hidden border flex flex-col transition-all duration-200 hover:-translate-y-0.5 ${
+      role="button"
+      tabIndex={0}
+      onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(guide); } }}
+      className={`group cursor-pointer rounded-xl overflow-hidden border flex flex-col transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-600 ${
         dark
           ? 'bg-stone-900 border-stone-800 hover:border-stone-700 hover:shadow-xl hover:shadow-black/30'
           : 'bg-white border-stone-200 hover:border-stone-300 hover:shadow-lg hover:shadow-stone-200/70'
