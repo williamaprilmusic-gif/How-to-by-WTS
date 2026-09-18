@@ -545,5 +545,225 @@ export const STARTER_GUIDES = [
       "role": "How-To Expert"
     },
     "isFeatured": false
+  },
+  {
+    "title": "Build a REST API with Node.js and Express",
+    "summary": "Learn how to build a fully functional, production-ready RESTful API using Node.js and Express from scratch. You will implement complete CRUD operations, request validation, proper HTTP status codes, and centralized error handling.",
+    "difficulty": "Beginner",
+    "estimatedTime": "45 mins",
+    "tools": [
+      "Node.js (v18 or higher)",
+      "npm (Node Package Manager)",
+      "Visual Studio Code (or any code editor)",
+      "Postman or cURL",
+      "Express.js framework"
+    ],
+    "steps": [
+      {
+        "id": 1,
+        "title": "Initialize the Project and Install Dependencies",
+        "content": "Create a new directory for your API and initialize it using npm init with default settings. Next, install Express as your production dependency for routing and HTTP handling. Install nodemon as a development dependency so your server restarts automatically whenever file changes are detected. Finally, add a development start script to your package.json file.",
+        "tip": "Set \"type\": \"commonjs\" or omit the field in package.json if you prefer using require syntax, or set it to \"module\" for ES imports.",
+        "codeSnippet": "mkdir node-rest-api && cd node-rest-api\nnpm init -y\nnpm install express\nnpm install -D nodemon"
+      },
+      {
+        "id": 2,
+        "title": "Create the Core Server Entry Point",
+        "content": "Create an entry file named server.js in your project's root folder. Import Express, instantiate the application, and configure your listener on port 3000 or an environment variable. Add a simple health-check route at the root path to verify that the server receives and answers HTTP requests properly. Run your dev script to confirm that the server boots up without runtime errors.",
+        "tip": "Always use process.env.PORT || 3000 to allow cloud hosting providers like Render or AWS to assign their own port dynamically.",
+        "codeSnippet": "const express = require('express');\nconst app = express();\nconst PORT = process.env.PORT || 3000;\n\napp.use(express.json());\n\napp.get('/', (req, res) => {\n  res.json({ message: 'API is running successfully' });\n});\n\napp.listen(PORT, () => {\n  console.log(`Server listening on port ${PORT}`);\n});",
+        "image": "https://images.unsplash.com/photo-1555066931-bf19f8fd1085?w=700&h=400&fit=crop&auto=format"
+      },
+      {
+        "id": 3,
+        "title": "Implement GET Routes for Reading Data",
+        "content": "Define an in-memory array of sample objects to serve as your temporary datastore. Implement an app.get route for /api/items that returns the full list of items with an HTTP 200 status code. Then, create a parameterized route /api/items/:id to look up an individual item by its unique identifier. Ensure you parse req.params.id into an integer and return an HTTP 404 response if the item cannot be found.",
+        "tip": "Remember that route parameters extracted from req.params are strings by default; convert them to numbers using parseInt() or Number() before comparing.",
+        "codeSnippet": "let items = [\n  { id: 1, name: 'Sample Item 1', price: 29.99 },\n  { id: 2, name: 'Sample Item 2', price: 49.99 }\n];\n\napp.get('/api/items', (req, res) => {\n  res.status(200).json(items);\n});\n\napp.get('/api/items/:id', (req, res) => {\n  const item = items.find(i => i.id === parseInt(req.params.id));\n  if (!item) return res.status(404).json({ error: 'Item not found' });\n  res.status(200).json(item);\n});"
+      },
+      {
+        "id": 4,
+        "title": "Implement the POST Route for Creating Data",
+        "content": "Define an app.post route on /api/items to allow clients to create new records. Read the payload from req.body and validate that all required fields are present and valid before saving. Generate an auto-incremented or timestamp-based ID, construct the new record, and append it to your data array. Conclude by sending an HTTP 201 Created status along with the newly created resource.",
+        "tip": "Never trust client-supplied input; perform strict checks on data types to prevent malformed data from polluting your datastore.",
+        "codeSnippet": "app.post('/api/items', (req, res) => {\n  const { name, price } = req.body;\n  if (!name || typeof price !== 'number') {\n    return res.status(400).json({ error: 'Valid name and numeric price are required' });\n  }\n\n  const newItem = {\n    id: items.length ? items[items.length - 1].id + 1 : 1,\n    name,\n    price\n  };\n\n  items.push(newItem);\n  res.status(201).json(newItem);\n});"
+      },
+      {
+        "id": 5,
+        "title": "Implement PUT and DELETE Routes",
+        "content": "Create an app.put route on /api/items/:id to handle item updates by locating the target item index. If the item exists, update its properties with the supplied req.body values and return the updated object with status 200. Next, create an app.delete route on /api/items/:id to remove items using the splice method or array filtering. Return an HTTP 204 No Content response upon successful deletion, or a 404 if the item ID does not exist.",
+        "tip": "HTTP 204 responses must not contain a message body; use res.status(204).send() instead of res.json().",
+        "codeSnippet": "app.put('/api/items/:id', (req, res) => {\n  const id = parseInt(req.params.id);\n  const itemIndex = items.findIndex(i => i.id === id);\n  if (itemIndex === -1) return res.status(404).json({ error: 'Item not found' });\n\n  const { name, price } = req.body;\n  items[itemIndex] = { id, name: name || items[itemIndex].name, price: price ?? items[itemIndex].price };\n  res.status(200).json(items[itemIndex]);\n});\n\napp.delete('/api/items/:id', (req, res) => {\n  const id = parseInt(req.params.id);\n  const exists = items.some(i => i.id === id);\n  if (!exists) return res.status(404).json({ error: 'Item not found' });\n\n  items = items.filter(i => i.id !== id);\n  res.status(204).send();\n});"
+      },
+      {
+        "id": 6,
+        "title": "Add Centralized Error Handling and 404 Middleware",
+        "content": "Add a fallback route handler at the bottom of your file to capture requests made to nonexistent endpoints. Directly below the 404 handler, declare a global error-handling middleware function that accepts four arguments: err, req, res, and next. Log the error details to your terminal for debugging purposes during development. Return a standardized JSON payload with a 500 Internal Server Error status to avoid leaking internal stack traces to the client.",
+        "tip": "Express identifies error-handling middleware specifically by the presence of four arguments (err, req, res, next). Omitting next will cause Express to treat it as standard middleware.",
+        "codeSnippet": "// 404 Handler\napp.use((req, res, next) => {\n  res.status(404).json({ error: 'Route not found' });\n});\n\n// Global Error Handler\napp.use((err, req, res, next) => {\n  console.error(err.stack);\n  res.status(500).json({ error: 'An unexpected server error occurred' });\n});"
+      },
+      {
+        "id": 7,
+        "title": "Test All Endpoints Using Postman or cURL",
+        "content": "Start your server using npm run dev and prepare your testing tool to verify each CRUD endpoint. Execute GET requests to verify both full collection and individual resource retrieval. Send POST, PUT, and DELETE requests using JSON payloads, verifying that status codes 201, 200, and 204 match your expectations. Test boundary scenarios, such as submitting missing fields or requesting nonexistent IDs, to verify your error handling.",
+        "tip": "When making POST or PUT requests with cURL or Postman, ensure the Content-Type header is explicitly set to application/json.",
+        "codeSnippet": "# Test GET all items\ncurl -X GET http://localhost:3000/api/items\n\n# Test POST new item\ncurl -X POST http://localhost:3000/api/items \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"name\": \"Wireless Mouse\", \"price\": 24.99}'"
+      }
+    ],
+    "tags": [
+      "Node.js",
+      "Express.js",
+      "REST API",
+      "Backend Development",
+      "JavaScript"
+    ],
+    "sources": [
+      {
+        "title": "Express.js Routing Guide",
+        "url": "https://expressjs.com/en/guide/routing.html",
+        "domain": "expressjs.com",
+        "type": "Official"
+      },
+      {
+        "title": "Node.js Official Documentation",
+        "url": "https://nodejs.org/en/docs",
+        "domain": "nodejs.org",
+        "type": "Official"
+      },
+      {
+        "title": "HTTP Response Status Codes - MDN Web Docs",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status",
+        "domain": "developer.mozilla.org",
+        "type": "Documentation"
+      }
+    ],
+    "youtubeQuery": "Node.js Express REST API tutorial for beginners",
+    "warnings": [
+      "In-memory arrays reset whenever the server restarts; use a database like MongoDB or PostgreSQL for persistent production data.",
+      "Do not expose detailed error stack traces to clients in production environments, as they can reveal system architecture vulnerabilities."
+    ],
+    "cost": "Free",
+    "id": "starter-tech-programming-5",
+    "category": "Tech & Programming",
+    "slug": "build-a-rest-api-with-node-js-and-express",
+    "heroImage": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=500&fit=crop&auto=format",
+    "popularity": 94,
+    "published": "2026-09-17",
+    "author": {
+      "name": "WTS Editorial",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=faces",
+      "role": "How-To Expert"
+    },
+    "isFeatured": false
+  },
+  {
+    "title": "How to Build a Realistic Personal Budget from Scratch",
+    "summary": "Learn how to track your cash flow, prioritize essential expenses, and allocate savings using a proven budgeting framework. By following this step-by-step guide, you will gain full control over your day-to-day spending and make steady progress toward your financial goals.",
+    "difficulty": "Beginner",
+    "estimatedTime": "60-90 mins",
+    "tools": [
+      "Spreadsheet software (Google Sheets or Microsoft Excel)",
+      "Last 3 months of bank and credit card statements",
+      "Recent pay stubs or proof of all income sources",
+      "Calculator",
+      "Free budgeting app (optional, e.g., Empower, YNAB trial, or Mint alternative)"
+    ],
+    "steps": [
+      {
+        "id": 1,
+        "title": "Calculate your net monthly income",
+        "content": "Gather your recent pay stubs, direct deposit records, and any documentation of secondary income like freelance work, dividends, or side hustles. Calculate your net take-home pay, which is the actual amount deposited into your bank account after taxes, 401(k) contributions, and healthcare deductions. If your income fluctuates, take the average of your lowest three earning months over the past year to establish a conservative baseline. Write this final baseline figure down at the top of your budgeting sheet as your starting monthly limit.",
+        "tip": "Never build your budget around gross income, as doing so will cause you to overestimate your available cash by 20% to 30%.",
+        "codeSnippet": null
+      },
+      {
+        "id": 2,
+        "title": "Audit past spending from statements",
+        "content": "Download your bank and credit card statements covering the previous 90 days. Go line by line and assign each transaction to a basic category such as housing, groceries, dining out, utilities, transportation, and discretionary shopping. Total each category per month and calculate the three-month average to uncover your real spending habits rather than idealized guesses. This historical baseline prevents you from setting unrealistically low targets that cause budget burnout.",
+        "tip": "Pay close attention to forgotten recurring subscription charges like streaming platforms and app memberships, which can quickly add up.",
+        "codeSnippet": null,
+        "image": "https://images.unsplash.com/photo-1517971129774-8a2b38fa128e?w=700&h=400&fit=crop&auto=format"
+      },
+      {
+        "id": 3,
+        "title": "Select an appropriate budgeting framework",
+        "content": "Select a structural model that aligns with your personality and financial situation. A popular starting point is the 50/30/20 rule, which directs 50% of net income toward essential needs, 30% toward discretionary wants, and 20% toward debt repayment and savings. Alternatively, consider zero-based budgeting if you prefer granular control, where every dollar is assigned a job until your income minus expenses equals zero. Choose the framework that feels sustainable for your lifestyle rather than the most mathematically complex one.",
+        "tip": "If high-interest debt exceeds 20% of your income, temporarily adjust the 50/30/20 proportions to 50/20/30 to prioritize aggressive repayment.",
+        "codeSnippet": null
+      },
+      {
+        "id": 4,
+        "title": "List and lock in fixed expenses",
+        "content": "Document all non-negotiable, fixed expenses that remain identical or near-identical each month. These typically include rent or mortgage payments, auto loans, student debt minimums, insurance premiums, and basic internet access. Subtract the sum of these fixed obligations directly from your net monthly income to reveal your remaining disposable pool for flexible expenses. Because these bills are predictable, set up automated payments through your bank to ensure you never incur late fees.",
+        "tip": "Audit insurance policies and internet bills annually by calling providers to negotiate rates or compare competing offers.",
+        "codeSnippet": null
+      },
+      {
+        "id": 5,
+        "title": "Set realistic caps on variable spending",
+        "content": "Allocate remaining funds across variable expense categories such as groceries, fuel, household supplies, entertainment, and dining out. Base these figures on the averages calculated during your 90-day statement audit, reducing non-essential targets incrementally rather than slashing them drastically. Give yourself a small miscellaneous buffer of $50 to $100 for minor unexpected expenses that arise throughout the month. Ensure that total fixed expenses plus total variable allocations do not exceed your net monthly income.",
+        "tip": "Try cutting discretionary categories by just 10% to 15% in your first month rather than eliminating them entirely.",
+        "codeSnippet": null
+      },
+      {
+        "id": 6,
+        "title": "Automate savings and emergency fund transfers",
+        "content": "Treat your savings and debt elimination contributions as compulsory bills rather than afterthoughts. Schedule an automatic bank transfer on the day following each payday to move savings directly into a separate High-Yield Savings Account (HYSA). Prioritize building a beginner emergency fund of $1,000 to cover minor crises without turning to credit cards, then scale toward 3 to 6 months of living expenses. Once emergency reserves are funded, redirect automated contributions toward investments or accelerated principal debt paydown.",
+        "tip": "Keeping your emergency fund in a separate bank reduces the temptation to dip into it for casual purchases.",
+        "codeSnippet": null
+      },
+      {
+        "id": 7,
+        "title": "Schedule a recurring weekly review and monthly reset",
+        "content": "Block out 10 to 15 minutes on your calendar every Sunday to log recent transactions and compare current spending against category caps. Weekly micro-reviews allow you to adjust spending mid-month if you notice you have consumed most of your dining budget early on. At the end of the calendar month, tally final figures, analyze any overspending variances without judgment, and roll surpluses into savings or debt repayment. Tweak your category targets for the upcoming month to reflect upcoming seasonal expenses, holidays, or utility rate changes.",
+        "tip": "Expect your first two to three budgets to require substantial adjustments before you find an effortless rhythm.",
+        "codeSnippet": null
+      }
+    ],
+    "tags": [
+      "Personal Finance",
+      "Budgeting",
+      "Money Management",
+      "Financial Planning",
+      "Savings"
+    ],
+    "sources": [
+      {
+        "title": "Making a Budget",
+        "url": "https://consumer.ftc.gov/articles/making-budget",
+        "domain": "consumer.ftc.gov",
+        "type": "Official"
+      },
+      {
+        "title": "How to Create a Budget: Step-by-Step Guide",
+        "url": "https://www.nerdwallet.com/article/finance/how-to-budget",
+        "domain": "nerdwallet.com",
+        "type": "Article"
+      },
+      {
+        "title": "An Essential Guide to Building an Emergency Fund",
+        "url": "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/",
+        "domain": "consumerfinance.gov",
+        "type": "Official"
+      }
+    ],
+    "youtubeQuery": "how to create a personal budget step by step spreadsheet",
+    "warnings": [
+      "Do not base calculations on gross salary, as forgetting taxes and payroll deductions will create an immediate deficit.",
+      "Avoid setting overly restrictive targets in month one; drastic lifestyle cuts frequently cause budget fatigue and abandonment."
+    ],
+    "cost": "Free",
+    "id": "starter-finance-productivity-6",
+    "category": "Finance & Productivity",
+    "slug": "how-to-build-a-realistic-personal-budget-from-scratch",
+    "heroImage": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&h=500&fit=crop&auto=format",
+    "popularity": 77,
+    "published": "2026-09-17",
+    "author": {
+      "name": "WTS Editorial",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=faces",
+      "role": "How-To Expert"
+    },
+    "isFeatured": false
   }
 ];
