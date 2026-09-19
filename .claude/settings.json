@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Supabase__get_edge_function",
+      "Bash(tasklist *)"
+    ]
+  }
+}

@@ -3,4 +3,5 @@ dist
 .DS_Store
 *.local
 .vercel
-.claude
+.claude/settings.local.json
+.claude/*.lock
