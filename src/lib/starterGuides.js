@@ -765,5 +765,231 @@ export const STARTER_GUIDES = [
       "role": "How-To Expert"
     },
     "isFeatured": false
+  },
+  {
+    "title": "How to Plan a Multi-Day Wilderness Backpacking Trip",
+    "summary": "Master the end-to-end process of organizing a safe, self-sufficient backcountry adventure from scratch. You will learn how to map realistic daily mileage, navigate permit systems, calculate trail nutrition, and build a contingency plan for the wild.",
+    "difficulty": "Intermediate",
+    "estimatedTime": "3-5 hours (over 1-2 weeks)",
+    "tools": [
+      "Digital mapping software (CalTopo or Gaia GPS)",
+      "Waterproof topographic paper map and magnetic compass",
+      "Digital luggage scale or kitchen scale",
+      "Backcountry permit portal account (e.g., Recreation.gov)",
+      "Detailed spreadsheet for gear weights and meal planning",
+      "NOAA point weather forecast tool"
+    ],
+    "steps": [
+      {
+        "id": 1,
+        "title": "Establish trip parameters and select a realistic route",
+        "content": "Assess the fitness, backcountry experience, and gear capability of all participants before picking a trail. Aim for modest daily mileage: 6 to 10 miles per day for beginner-to-intermediate groups, adjusting downward if elevation gain exceeds 2,000 feet per day. Use trail guidebooks and trip reports from the past 30 days to check for bridge washouts, blowdowns, and current snowpack levels.",
+        "tip": "Factor in terrain roughness; a 7-mile day over talus or bog takes twice as long as 7 miles on a graded national park trail.",
+        "codeSnippet": null
+      },
+      {
+        "id": 2,
+        "title": "Secure land-management permits and review local regulations",
+        "content": "Determine which agency manages the land (USFS, NPS, BLM, or state parks) and research their permit release windows, which often open 6 months in advance on Recreation.gov. Note mandatory regulations such as hard-sided bear canister requirements, human waste pack-out mandates (WAG bags), and group size caps. Purchase your wilderness permits, vehicle parking passes, and campfire permits well in advance.",
+        "tip": "Set a calendar alarm 5 minutes before permits drop at 7:00 AM local time, as popular wilderness trailheads sell out within seconds.",
+        "codeSnippet": null,
+        "image": "https://images.unsplash.com/photo-1494548162494-384bba4ab999?w=700&h=400&fit=crop&auto=format"
+      },
+      {
+        "id": 3,
+        "title": "Map your daily itinerary, water sources, and bail-out points",
+        "content": "Plot your exact route on CalTopo or Gaia GPS, marking planned campsites at legal distances from water bodies (typically 200 feet minimum). Identify reliable, year-round water sources along the trail and note dry stretches longer than 5 miles so you can plan carry volumes accordingly. Identify emergency exit trails (bail-out routes) where you can cut the trip short and hike out to a road in case of illness or injury.",
+        "tip": "Always print a 1:24,000 scale paper topographic map and store it in a gallon ziplock bag inside your pack.",
+        "codeSnippet": null
+      },
+      {
+        "id": 4,
+        "title": "Plan nutrition and calculate water carry requirements",
+        "content": "Target 2,500 to 4,000 calories per person per day, focusing on calorie-dense, dehydrated, or freeze-dried foods providing 100 to 125 calories per ounce. Plan meals requiring minimal fuel consumption, and add an extra full day of emergency rations. Plan your water capacity around a baseline of 0.5 to 1 liter per two hours of hiking, increasing that volume in hot weather, high altitudes, or dry canyon sections.",
+        "tip": "Repackage bulky freeze-dried meals into resealable freezer bags to reduce trash volume and pack weight.",
+        "codeSnippet": null
+      },
+      {
+        "id": 5,
+        "title": "Audit, weigh, and pack gear by functional categories",
+        "content": "Weigh your individual gear items using a scale and enter them into a gear checklist to calculate base weight (all gear minus food, water, and fuel). Prioritize keeping base weight under 18-20% of your body weight to prevent joint stress and fatigue. Pack heavier dense items (food, fuel, shelter) close to your spine in the mid-pack area, keeping emergency items, rain gear, and water filtration easily accessible on top or in outer pockets.",
+        "tip": "Test every piece of equipment at home—pitch your tent, ignite your stove, and verify your water filter flow rate—before departing.",
+        "codeSnippet": null
+      },
+      {
+        "id": 6,
+        "title": "Check localized forecasts and trail condition updates",
+        "content": "Check the NOAA point forecast for the specific coordinates and elevation of your route 48 and 24 hours prior to leaving. Cross-reference regional air quality indices (AQI) and active wildfire perimeters via InciWeb. Call the local ranger station the day before departure to verify recent wildlife encounters, trail closures, and water source viability.",
+        "tip": "Remember that mountain temperatures drop roughly 3.5 to 5.4 degrees Fahrenheit per 1,000 feet of elevation gain.",
+        "codeSnippet": null
+      },
+      {
+        "id": 7,
+        "title": "Draft and deposit an emergency contingency plan",
+        "content": "Write a concise trip itinerary that includes vehicle make/model/license plate, trailhead start and end locations, daily campsite coordinates, and descriptions of group clothing/tent colors. Give this plan to a reliable contact who stays off the trail, establishing a hard 'call Search and Rescue' cutoff time if you fail to check in. Carry a satellite messenger (such as a Garmin inReach or ZOLEO) with an active SOS subscription for remote emergencies.",
+        "tip": "Make sure your emergency contact knows which county sheriff or backcountry dispatch office to call if you miss your deadline.",
+        "codeSnippet": null
+      }
+    ],
+    "tags": [
+      "backpacking",
+      "hiking",
+      "outdoor-skills",
+      "wilderness-travel",
+      "trip-planning"
+    ],
+    "sources": [
+      {
+        "title": "How to Plan a Backpacking Trip",
+        "url": "https://www.rei.com/learn/expert-advice/backpacking-trip-planning.html",
+        "domain": "rei.com",
+        "type": "Article"
+      },
+      {
+        "title": "Principle 1: Plan Ahead and Prepare",
+        "url": "https://lnt.org/why/7-principles/plan-ahead-and-prepare/",
+        "domain": "lnt.org",
+        "type": "Official"
+      },
+      {
+        "title": "Wilderness Trip Planning and Safety",
+        "url": "https://www.nps.gov/articles/trail-safety.htm",
+        "domain": "nps.gov",
+        "type": "Official"
+      }
+    ],
+    "youtubeQuery": "how to plan a backpacking trip step by step guide",
+    "warnings": [
+      "Never depend exclusively on a smartphone for wilderness navigation, as lithium batteries drain rapidly in cold weather and electronics can malfunction if wet.",
+      "Do not alter your planned route on a whim without updating your emergency contact; doing so misdirects search and rescue teams in an emergency.",
+      "Strictly follow local food storage mandates (such as approved bear canisters); failing to do so puts both wildlife and future hikers in grave danger."
+    ],
+    "cost": "$10 - $60 (permits, parking passes, and print maps; equipment excluded)",
+    "id": "starter-outdoors-travel-7",
+    "category": "Outdoors & Travel",
+    "slug": "how-to-plan-a-multi-day-wilderness-backpacking-trip",
+    "heroImage": "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&h=500&fit=crop&auto=format",
+    "popularity": 89,
+    "published": "2026-09-19",
+    "author": {
+      "name": "WTS Editorial",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=faces",
+      "role": "How-To Expert"
+    },
+    "isFeatured": false
+  },
+  {
+    "title": "How to Change Your Car's Engine Oil and Filter",
+    "summary": "Master the essential process of draining spent motor oil, swapping the filter, and refilling your engine with fresh lubricant from your home garage. Doing this simple maintenance yourself protects your engine from premature wear while saving significant money over shop labor rates.",
+    "difficulty": "Beginner",
+    "estimatedTime": "45-60 mins",
+    "tools": [
+      "Appropriate engine oil (specified weight and volume in owner's manual)",
+      "New oil filter and new drain plug crush washer",
+      "Floor jack and two heavy-duty jack stands (or drive-on ramps)",
+      "Oil drain catch pan (at least 6-quart capacity)",
+      "Socket wrench set (specifically the drain plug size, commonly 14mm-17mm)",
+      "Oil filter wrench or filter pliers",
+      "Clean automotive funnel",
+      "Nitrile gloves, safety glasses, and shop rags"
+    ],
+    "steps": [
+      {
+        "id": 1,
+        "title": "Warm the engine and prepare your workspace",
+        "content": "Park your vehicle on a flat, solid concrete surface, engage the emergency brake, and place wheel chocks behind the rear tires. Start the engine and let it idle for 3 to 5 minutes so the motor oil warms up; warm oil suspends engine contaminants better and drains more completely than cold oil. Shut off the engine, pop the hood, and locate your engine oil filler cap and dipstick so you are oriented before getting underneath.",
+        "tip": "Do not let the engine run to full operating temperature, or the exhaust pipes and engine oil will be hot enough to cause severe burns.",
+        "codeSnippet": null
+      },
+      {
+        "id": 2,
+        "title": "Safely elevate and secure the vehicle",
+        "content": "Locate the vehicle's reinforced front jacking points indicated in your owner's manual. Use a hydraulic floor jack to raise the front end high enough to slide under comfortably. Position rated jack stands beneath the factory frame lift points or subframe, slowly lower the jack until the weight rests securely on the stands, and give the vehicle a firm shove to confirm stability before crawling underneath.",
+        "tip": "Always leave the hydraulic jack raised just shy of the crossmember with minimal clearance as a secondary failsafe behind the jack stands.",
+        "codeSnippet": null,
+        "image": "https://images.unsplash.com/photo-1558618047-3d3c7c36d28e?w=700&h=400&fit=crop&auto=format"
+      },
+      {
+        "id": 3,
+        "title": "Drain the old motor oil",
+        "content": "Slide the oil catch pan directly beneath the engine oil pan drain plug, keeping in mind that oil will stream out at an angle when the plug releases. Don your safety glasses and gloves, then break the drain plug loose counterclockwise using the correct box-end wrench or socket. Remove the plug the rest of the way by hand while maintaining light inward pressure, then pull it away quickly so the oil flows into the catch pan until it reduces to a light drip.",
+        "tip": "Unscrewing the oil filler cap under the hood before draining prevents vacuum buildup and helps the oil flow out much faster.",
+        "codeSnippet": null
+      },
+      {
+        "id": 4,
+        "title": "Reinstall the drain plug with a new crush washer",
+        "content": "Wipe down the drain port and the drain plug threads with a clean shop rag to clear away metal debris or grime. Discard the old metal crush washer from the drain plug and slide on a brand-new replacement washer. Thread the drain plug back into the oil pan by hand for at least 3 to 4 turns to avoid cross-threading, then tighten it with a torque wrench to factory specifications (typically between 20 and 30 foot-pounds).",
+        "tip": "Never overtighten the drain plug, as stripping the aluminum threads on an oil pan requires an expensive and labor-intensive pan replacement.",
+        "codeSnippet": null
+      },
+      {
+        "id": 5,
+        "title": "Remove the old filter and install the new one",
+        "content": "Reposition the drain pan under the oil filter, as trapped oil will spill out when loosened. Loosen the old filter using an oil filter wrench, then spin it off by hand and tip its remaining fluid into the pan. Inspect the old filter to ensure its circular rubber gasket came off with it and is not stuck to the engine mounting surface. Dip a clean finger into fresh motor oil and smear a thin coat across the rubber gasket of the new filter, then spin the new filter on by hand until the gasket makes contact, tightening it an additional 3/4 to 1 full turn.",
+        "tip": "Do not use a wrench to tighten the new oil filter; hand-tightening prevents crushing the internal bypass valve or tearing the gasket.",
+        "codeSnippet": null
+      },
+      {
+        "id": 6,
+        "title": "Lower the vehicle and fill with fresh oil",
+        "content": "Clear all tools and the catch pan from underneath the vehicle, raise the car slightly off the jack stands, remove the stands, and lower the car fully back onto level ground. Insert your clean funnel into the oil fill neck on top of the engine valve cover. Slowly pour in roughly 0.5 quarts less than your engine's specified total capacity to prevent accidental overfilling, allow 60 seconds for the oil to settle into the pan, and firmly reinstall the oil fill cap.",
+        "tip": "Pour oil with the bottle held sideways (label facing the side or up) rather than flat down to stop the oil from 'glugging' and splashing.",
+        "codeSnippet": null
+      },
+      {
+        "id": 7,
+        "title": "Check for leaks and verify final oil level",
+        "content": "Start the engine and let it idle for 60 to 90 seconds while monitoring your dashboard to ensure the red oil pressure warning light turns off immediately. Look beneath the front of the vehicle to confirm zero drips around the drain plug or filter base, then turn the engine off and wait 3 minutes for oil to drain back down. Pull the dipstick, wipe it clean with a rag, fully reinsert it, and pull it out again to verify the oil level sits squarely between the minimum and maximum indicator dots or crosshatches, adding small amounts as needed.",
+        "tip": "Funnel your old oil from the drain pan into the empty oil bottles; nearly all auto parts stores accept used motor oil and filters for free recycling.",
+        "codeSnippet": null
+      }
+    ],
+    "tags": [
+      "automotive",
+      "diy-maintenance",
+      "oil-change",
+      "car-care",
+      "engine-repair"
+    ],
+    "sources": [
+      {
+        "title": "How to Change Your Oil",
+        "url": "https://www.edmunds.com/how-to/how-to-change-your-oil.html",
+        "domain": "edmunds.com",
+        "type": "Article"
+      },
+      {
+        "title": "How to Change Your Car Oil",
+        "url": "https://www.valvolineglobal.com/en-eur/how-to-change-car-oil/",
+        "domain": "valvolineglobal.com",
+        "type": "Official"
+      },
+      {
+        "title": "How to Change Your Own Oil",
+        "url": "https://www.autozone.com/diy/motor-oil/how-to-change-oil",
+        "domain": "autozone.com",
+        "type": "Documentation"
+      }
+    ],
+    "youtubeQuery": "how to change engine oil and filter beginner guide step by step",
+    "warnings": [
+      "Never get beneath a car supported only by a hydraulic or scissor jack; always lower the vehicle onto rated jack stands.",
+      "Never dump used motor oil down household drains, onto the ground, or into trash cans; it is illegal and severely damages groundwater.",
+      "Avoid touching hot exhaust components or letting scalding oil make contact with your skin."
+    ],
+    "cost": "$30-50",
+    "id": "starter-automotive-8",
+    "category": "Automotive",
+    "slug": "how-to-change-your-car-s-engine-oil-and-filter",
+    "heroImage": "https://images.unsplash.com/photo-1489824904134-2f8f192dd82d?w=800&h=500&fit=crop&auto=format",
+    "popularity": 86,
+    "published": "2026-09-19",
+    "author": {
+      "name": "WTS Editorial",
+      "avatar": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=faces",
+      "role": "How-To Expert"
+    },
+    "isFeatured": false
   }
 ];
