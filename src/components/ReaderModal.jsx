@@ -50,15 +50,20 @@ function VideoModal({ video, onClose }) {
   );
 }
 
-export default function ReaderModal({ guide, guides, onOpen, onClose, completedMap, toggleStep, bookmarked, onBookmark, dark }) {
+export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, completedMap, toggleStep, bookmarked, onBookmark, dark }) {
   const [activeStep, setActiveStep] = useState(0);
   const [tocOpen, setTocOpen] = useState(false);
   const [lightbox, setLightbox] = useState(null);
   const [videoModal, setVideoModal] = useState(null);
   const [shareToast, setShareToast] = useState(false);
+  const [scrollPct, setScrollPct] = useState(0);
   const stepRefs = useRef([]);
+  const scrollRef = useRef(null);
+  const goToRef = useRef(null);
+  const activeStepRef = useRef(0);
+  activeStepRef.current = activeStep;
 
-  useEffect(() => { setActiveStep(0); setTocOpen(false); }, [guide?.id]);
+  useEffect(() => { setActiveStep(0); setTocOpen(false); setScrollPct(0); }, [guide?.id]);
   useEffect(() => {
     document.body.style.overflow = guide ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -66,7 +71,12 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
 
   useEffect(() => {
     if (!guide) return;
-    const onKeyDown = e => { if (e.key === 'Escape') onClose(); };
+    const onKeyDown = e => {
+      if (e.target.closest?.('input, textarea')) return;
+      if (e.key === 'Escape') onClose();
+      else if (e.key === 'ArrowRight') { e.preventDefault(); goToRef.current?.(activeStepRef.current + 1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); goToRef.current?.(activeStepRef.current - 1); }
+    };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [guide, onClose]);
@@ -100,6 +110,17 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
     setActiveStep(c);
     setTocOpen(false);
     setTimeout(() => stepRefs.current[c]?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  };
+  goToRef.current = goTo;
+
+  const guideIndex = (guides || []).findIndex(g => g.id === guide.id);
+  const prevGuide = guideIndex > 0 ? guides[guideIndex - 1] : null;
+  const nextGuide = guideIndex >= 0 && guideIndex < (guides || []).length - 1 ? guides[guideIndex + 1] : null;
+
+  const onBodyScroll = e => {
+    const el = e.currentTarget;
+    const max = el.scrollHeight - el.clientHeight;
+    setScrollPct(max > 0 ? Math.min(100, Math.round((el.scrollTop / max) * 100)) : 0);
   };
 
   const markAndNext = () => {
@@ -137,6 +158,11 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
     <>
       <div className="fixed inset-0 z-50 bg-black/50 flex items-start sm:items-center justify-center p-0 sm:p-6 print:relative print:inset-auto print:bg-white print:p-0 print:block">
         <div className={`w-full sm:max-w-3xl h-full sm:h-[93vh] ${bg} sm:rounded-2xl overflow-hidden flex flex-col shadow-2xl print:h-auto print:max-w-none print:overflow-visible print:shadow-none print:rounded-none print:block`}>
+
+          {/* ── Reading-progress bar ──────────────────────────── */}
+          <div className={`shrink-0 h-[3px] print:hidden ${D ? 'bg-stone-800' : 'bg-stone-100'}`}>
+            <div className="h-full bg-amber-600 transition-[width] duration-150" style={{ width: `${scrollPct}%` }} role="progressbar" aria-label="Reading progress" aria-valuenow={scrollPct} aria-valuemin={0} aria-valuemax={100} />
+          </div>
 
           {/* ── Top chrome ────────────────────────────────────── */}
           <div className={`shrink-0 border-b ${border} px-5 sm:px-8 pt-4 pb-3`}>
@@ -234,11 +260,26 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
           </div>
 
           {/* ── Scrollable body ────────────────────────────────── */}
-          <div className="flex-1 overflow-y-auto print:overflow-visible">
+          <div ref={scrollRef} onScroll={onBodyScroll} className="flex-1 overflow-y-auto print:overflow-visible">
             <div className="px-5 sm:px-8 py-7 max-w-2xl mx-auto print:max-w-none">
 
               {/* Summary */}
               <p className={`text-[15px] leading-relaxed mb-6 ${subtle}`}>{guide.summary}</p>
+
+              {/* Tags */}
+              {guide.tags?.length > 0 && (
+                <div className="flex flex-wrap gap-2 mb-6 print:hidden">
+                  {guide.tags.map((tag, i) => (
+                    <button
+                      key={i}
+                      onClick={() => onTag?.(tag)}
+                      className={`text-[12px] px-2.5 py-1 rounded-full border transition-colors ${D ? 'border-stone-700 text-stone-400 hover:border-amber-700 hover:text-amber-500' : 'border-stone-200 text-stone-500 hover:border-amber-400 hover:text-amber-700'}`}
+                    >
+                      #{tag}
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {/* Tools / Ingredients list */}
               {guide.tools?.length > 0 && (
@@ -461,6 +502,36 @@ export default function ReaderModal({ guide, guides, onOpen, onClose, completedM
                       );
                     })}
                   </div>
+                </div>
+              )}
+
+              {/* ── Prev / next guide ───────────────────────────── */}
+              {(prevGuide || nextGuide) && (
+                <div className={`mt-10 pt-8 border-t grid grid-cols-2 gap-3 print:hidden ${D ? 'border-stone-800' : 'border-stone-200'}`}>
+                  {prevGuide ? (
+                    <button
+                      onClick={() => onOpen?.(prevGuide)}
+                      className={`flex items-center gap-2 p-3 rounded-xl border text-left transition-colors ${D ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-200 hover:bg-stone-50'}`}
+                    >
+                      <ChevronLeft size={16} className={`shrink-0 ${muted}`} />
+                      <span className="min-w-0">
+                        <span className={`block text-[10px] font-bold uppercase tracking-widest ${muted}`}>Previous</span>
+                        <span className={`block text-[13px] font-semibold line-clamp-1 ${text}`} style={{ fontFamily: "'Lora', serif" }}>{prevGuide.title}</span>
+                      </span>
+                    </button>
+                  ) : <span />}
+                  {nextGuide ? (
+                    <button
+                      onClick={() => onOpen?.(nextGuide)}
+                      className={`flex items-center justify-end gap-2 p-3 rounded-xl border text-right transition-colors ${D ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-200 hover:bg-stone-50'}`}
+                    >
+                      <span className="min-w-0">
+                        <span className={`block text-[10px] font-bold uppercase tracking-widest ${muted}`}>Next</span>
+                        <span className={`block text-[13px] font-semibold line-clamp-1 ${text}`} style={{ fontFamily: "'Lora', serif" }}>{nextGuide.title}</span>
+                      </span>
+                      <ChevronRight size={16} className={`shrink-0 ${muted}`} />
+                    </button>
+                  ) : <span />}
                 </div>
               )}
             </div>

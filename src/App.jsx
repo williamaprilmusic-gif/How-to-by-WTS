@@ -55,6 +55,39 @@ function ViewBar({ view, setView, sort, setSort, count, dark }) {
   );
 }
 
+function ResumeSection({ items, onOpen, dark }) {
+  if (!items.length) return null;
+  return (
+    <div className="mb-8">
+      <h2 className={`text-[13px] font-bold uppercase tracking-widest mb-3 ${dark ? 'text-stone-500' : 'text-stone-400'}`}>Resume where you left off</h2>
+      <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+        {items.map(({ g, p }) => {
+          const catMeta = CATEGORY_META[g.category] || {};
+          return (
+            <button
+              key={g.id}
+              onClick={() => onOpen(g)}
+              className={`group shrink-0 w-64 text-left rounded-xl border overflow-hidden transition-colors ${dark ? 'border-stone-800 bg-stone-900 hover:border-stone-700' : 'border-stone-200 bg-white hover:border-stone-300'}`}
+            >
+              <div className="flex gap-3 p-3">
+                <img src={g.heroImage} alt="" className="w-14 h-14 rounded-lg object-cover shrink-0" />
+                <div className="min-w-0 flex-1">
+                  <span className="text-[11px] font-semibold" style={{ color: catMeta.color }}>{g.category.split(' & ')[0]}</span>
+                  <p className={`text-[13px] font-semibold line-clamp-2 ${dark ? 'text-stone-100' : 'text-slate-800'}`} style={{ fontFamily: "'Lora', serif" }}>{g.title}</p>
+                </div>
+              </div>
+              <div className={`h-1.5 ${dark ? 'bg-stone-800' : 'bg-stone-100'}`}>
+                <div className="h-full bg-amber-600" style={{ width: `${p.pct}%` }} />
+              </div>
+              <div className={`px-3 py-1.5 text-[11px] font-medium ${dark ? 'text-stone-500' : 'text-stone-400'}`}>{p.count} of {p.total} steps · {p.pct}%</div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function FeaturedBanner({ guide, onOpen }) {
   if (!guide) return null;
   const catMeta = CATEGORY_META[guide.category] || {};
@@ -144,6 +177,51 @@ export default function App() {
 
   const featured = useMemo(() => guides.find(g => g.isFeatured) || guides[0], [guides]);
 
+  const inProgress = useMemo(() => guides
+    .map(g => ({ g, p: guideProgress(g) }))
+    .filter(x => x.p.pct > 0 && x.p.pct < 100)
+    .sort((a, b) => b.p.pct - a.p.pct)
+    .slice(0, 6), [guides, guideProgress]);
+
+  const handleTag = (tag) => {
+    setActiveGuide(null);
+    setCategory('All');
+    setDifficulty('All');
+    setQuery(tag);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const DEFAULT_TITLE = 'How To — by WTS';
+    const DEFAULT_DESC = 'Browse how-to guides across cooking, tech, DIY, fitness, and more — or generate a new one with AI.';
+    const origin = window.location.origin;
+    const setMeta = (selector, value) => {
+      const el = document.head.querySelector(selector);
+      if (el) el.setAttribute('content', value);
+    };
+    if (activeGuide) {
+      document.title = `${activeGuide.title} — How To by WTS`;
+      setMeta('meta[name="description"]', activeGuide.summary);
+      setMeta('meta[property="og:title"]', activeGuide.title);
+      setMeta('meta[property="og:description"]', activeGuide.summary);
+      setMeta('meta[property="og:image"]', activeGuide.heroImage);
+      setMeta('meta[property="og:url"]', `${origin}/#guide/${activeGuide.slug}`);
+      setMeta('meta[name="twitter:title"]', activeGuide.title);
+      setMeta('meta[name="twitter:description"]', activeGuide.summary);
+      setMeta('meta[name="twitter:image"]', activeGuide.heroImage);
+    } else {
+      document.title = DEFAULT_TITLE;
+      setMeta('meta[name="description"]', DEFAULT_DESC);
+      setMeta('meta[property="og:title"]', DEFAULT_TITLE);
+      setMeta('meta[property="og:description"]', DEFAULT_DESC);
+      setMeta('meta[property="og:image"]', `${origin}/logo-full.png`);
+      setMeta('meta[property="og:url"]', `${origin}/`);
+      setMeta('meta[name="twitter:title"]', DEFAULT_TITLE);
+      setMeta('meta[name="twitter:description"]', DEFAULT_DESC);
+      setMeta('meta[name="twitter:image"]', `${origin}/logo-full.png`);
+    }
+  }, [activeGuide]);
+
   const initialHashHandled = useRef(false);
   useEffect(() => {
     if (initialHashHandled.current) return;
@@ -196,6 +274,8 @@ export default function App() {
 
             {showGenerator && <GeneratePanel onGuideGenerated={addGuide} existingGuides={guides} dark={dark} />}
 
+            {!query && category === 'All' && difficulty === 'All' && <ResumeSection items={inProgress} onOpen={setActiveGuide} dark={dark} />}
+
             {!query && category === 'All' && guides.length > 0 && <FeaturedBanner guide={featured} onOpen={setActiveGuide} dark={dark} />}
 
             {guides.length > 0 && (
@@ -226,7 +306,7 @@ export default function App() {
           </main>
         </div>
 
-        <ReaderModal guide={activeGuide} guides={guides} onOpen={setActiveGuide} onClose={() => setActiveGuide(null)} completedMap={completedMap} toggleStep={toggleStep} bookmarked={activeGuide ? bookmarks.includes(activeGuide.id) : false} onBookmark={toggleBookmark} dark={dark} />
+        <ReaderModal guide={activeGuide} guides={guides} onOpen={setActiveGuide} onTag={handleTag} onClose={() => setActiveGuide(null)} completedMap={completedMap} toggleStep={toggleStep} bookmarked={activeGuide ? bookmarks.includes(activeGuide.id) : false} onBookmark={toggleBookmark} dark={dark} />
         <BookmarksDrawer open={bookmarksOpen} onClose={() => setBookmarksOpen(false)} guides={guides} bookmarks={bookmarks} onOpen={setActiveGuide} onBookmark={toggleBookmark} dark={dark} />
         <CreateGuideModal open={createOpen} onClose={() => setCreateOpen(false)} onCreate={addGuide} dark={dark} />
       </div>
