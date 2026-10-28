@@ -24,12 +24,22 @@ npm run lint
 
 ## AI Guide Generator
 
-Generating new guides calls `api/generate-guide.js`, a Vercel serverless function that talks to the Gemini API server-side so the key never reaches the browser. It requires a `GEMINI_API_KEY` environment variable:
+Generating new guides calls `api/generate-guide.js`, a Vercel serverless function that talks to an LLM server-side so no key ever reaches the browser. It supports three providers and picks one based on which API keys are present:
 
-- Local dev: add it to `.env.local`
-- Production: `vercel env add GEMINI_API_KEY production` (or the Vercel dashboard)
+| Provider | API key env | Default model | Model override env |
+|----------|-------------|---------------|--------------------|
+| Cerebras (default) | `CEREBRAS_API_KEY` | `llama-3.3-70b` | `CEREBRAS_MODEL` |
+| Groq | `GROQ_API_KEY` | `llama-3.3-70b-versatile` | `GROQ_MODEL` |
+| Gemini | `GEMINI_API_KEY` | `gemini-3.8-flash` | `GEMINI_MODEL` |
 
-Without it, everything else in the app works — browsing, filters, bookmarks, progress tracking — except generating new guides.
+`LLM_PROVIDER` selects the primary provider (`cerebras`, `groq`, or `gemini`; defaults to `cerebras`). Any provider whose key is missing is skipped, and if the primary fails the function automatically falls back to the others that do have a key — so the app keeps generating as long as at least one key is set.
+
+- Local dev: add the key(s) to `.env.local`
+- Production: `vercel env add CEREBRAS_API_KEY production` (or the Vercel dashboard)
+
+Get free keys at [cloud.cerebras.ai](https://cloud.cerebras.ai), [console.groq.com](https://console.groq.com), or [aistudio.google.com](https://aistudio.google.com).
+
+Without any key, everything else in the app works — browsing, filters, bookmarks, progress tracking — except generating new guides.
 
 ### Regenerating starter guides
 
