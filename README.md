@@ -26,11 +26,16 @@ npm run lint
 
 Generating new guides calls `api/generate-guide.js`, a Vercel serverless function that talks to an LLM server-side so no key ever reaches the browser. It supports three providers and picks one based on which API keys are present:
 
-| Provider | API key env | Default model | Model override env |
-|----------|-------------|---------------|--------------------|
-| Cerebras | `CEREBRAS_API_KEY` | `llama-3.3-70b` | `CEREBRAS_MODEL` |
-| Groq | `GROQ_API_KEY` | `llama-3.3-70b-versatile` | `GROQ_MODEL` |
-| Gemini | `GEMINI_API_KEY` | `gemini-3.8-flash` | `GEMINI_MODEL` |
+| Provider | API key env | Default model | Model override env | Free key |
+|----------|-------------|---------------|--------------------|----------|
+| Groq | `GROQ_API_KEY` | `llama-3.3-70b-versatile` | `GROQ_MODEL` | console.groq.com |
+| Gemini | `GEMINI_API_KEY` | `gemini-3.8-flash` | `GEMINI_MODEL` | aistudio.google.com |
+| Cerebras | `CEREBRAS_API_KEY` | `llama-3.3-70b` | `CEREBRAS_MODEL` | cloud.cerebras.ai |
+| OpenRouter | `OPENROUTER_API_KEY` | `meta-llama/llama-3.3-70b-instruct:free` | `OPENROUTER_MODEL` | openrouter.ai |
+| Mistral | `MISTRAL_API_KEY` | `mistral-small-latest` | `MISTRAL_MODEL` | console.mistral.ai |
+| NVIDIA NIM | `NVIDIA_API_KEY` | `meta/llama-3.3-70b-instruct` | `NVIDIA_MODEL` | build.nvidia.com |
+
+Any **OpenAI-compatible** endpoint not listed can be added without code changes via `CUSTOM_LLM_URL` + `CUSTOM_LLM_API_KEY` (optional `CUSTOM_LLM_MODEL`, and `CUSTOM_LLM_JSON=1` to request JSON mode).
 
 Any provider whose key is missing is skipped, and if one fails the function automatically falls back to the others that do have a key — so the app keeps generating as long as at least one key is set.
 

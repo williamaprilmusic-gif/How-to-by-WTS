@@ -12,6 +12,7 @@ const PROVIDERS = {
     keyEnv: 'CEREBRAS_API_KEY',
     modelEnv: 'CEREBRAS_MODEL',
     defaultModel: 'llama-3.3-70b',
+    jsonMode: true,
   },
   groq: {
     kind: 'openai',
@@ -19,6 +20,31 @@ const PROVIDERS = {
     keyEnv: 'GROQ_API_KEY',
     modelEnv: 'GROQ_MODEL',
     defaultModel: 'llama-3.3-70b-versatile',
+    jsonMode: true,
+  },
+  openrouter: {
+    kind: 'openai',
+    url: 'https://openrouter.ai/api/v1/chat/completions',
+    keyEnv: 'OPENROUTER_API_KEY',
+    modelEnv: 'OPENROUTER_MODEL',
+    defaultModel: 'meta-llama/llama-3.3-70b-instruct:free',
+    jsonMode: true,
+  },
+  mistral: {
+    kind: 'openai',
+    url: 'https://api.mistral.ai/v1/chat/completions',
+    keyEnv: 'MISTRAL_API_KEY',
+    modelEnv: 'MISTRAL_MODEL',
+    defaultModel: 'mistral-small-latest',
+    jsonMode: true,
+  },
+  nvidia: {
+    kind: 'openai',
+    url: 'https://integrate.api.nvidia.com/v1/chat/completions',
+    keyEnv: 'NVIDIA_API_KEY',
+    modelEnv: 'NVIDIA_MODEL',
+    defaultModel: 'meta/llama-3.3-70b-instruct',
+    jsonMode: false,
   },
   gemini: {
     kind: 'gemini',
@@ -27,6 +53,21 @@ const PROVIDERS = {
     defaultModel: 'gemini-3.8-flash',
   },
 };
+
+// Generic escape hatch: point at any OpenAI-compatible endpoint via env
+// (CUSTOM_LLM_URL + CUSTOM_LLM_API_KEY, optional CUSTOM_LLM_MODEL and
+// CUSTOM_LLM_JSON=1) without touching code. Only activates when both the
+// URL and key are set.
+if (process.env.CUSTOM_LLM_URL) {
+  PROVIDERS.custom = {
+    kind: 'openai',
+    url: process.env.CUSTOM_LLM_URL,
+    keyEnv: 'CUSTOM_LLM_API_KEY',
+    modelEnv: 'CUSTOM_LLM_MODEL',
+    defaultModel: process.env.CUSTOM_LLM_MODEL || 'gpt-3.5-turbo',
+    jsonMode: process.env.CUSTOM_LLM_JSON === '1',
+  };
+}
 
 // ── Optional KV (Vercel KV / Upstash Redis REST) ───────────────────────
 // Used to round-robin across providers and remember which ones are
@@ -102,16 +143,17 @@ Requirements:
 }
 
 async function callOpenAICompatible(provider, model, apiKey, prompt) {
+  const body = {
+    model,
+    messages: [{ role: 'user', content: prompt }],
+    temperature: 0.7,
+    max_tokens: 4096,
+  };
+  if (provider.jsonMode) body.response_format = { type: 'json_object' };
   const response = await fetch(provider.url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
-    body: JSON.stringify({
-      model,
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.7,
-      max_tokens: 4096,
-      response_format: { type: 'json_object' },
-    }),
+    body: JSON.stringify(body),
   });
   if (!response.ok) {
     const err = new Error(`${response.status} ${await response.text()}`);
@@ -196,7 +238,7 @@ export default async function handler(req, res) {
 
   const configured = Object.keys(PROVIDERS).filter((n) => process.env[PROVIDERS[n].keyEnv]);
   if (configured.length === 0) {
-    res.status(500).json({ error: 'No LLM provider API key configured. Set CEREBRAS_API_KEY, GROQ_API_KEY, or GEMINI_API_KEY.' });
+    res.status(500).json({ error: 'No LLM provider API key configured. Set at least one provider key (e.g. GROQ_API_KEY, GEMINI_API_KEY, OPENROUTER_API_KEY, MISTRAL_API_KEY, NVIDIA_API_KEY, CEREBRAS_API_KEY).' });
     return;
   }
 
