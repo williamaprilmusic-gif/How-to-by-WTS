@@ -27,41 +27,10 @@ function Lightbox({ src, onClose }) {
   );
 }
 
-function VideoModal({ video, searchUrl, onClose }) {
-  if (!video) return null;
-  const embedUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
-  return (
-    <div className="fixed inset-0 z-[80] bg-black/90 flex items-center justify-center p-4 sm:p-10" onClick={onClose}>
-      <div className="w-full max-w-3xl bg-stone-950 rounded-xl overflow-hidden" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-          <div>
-            <p className="text-white text-[13px] font-medium">{video.title}</p>
-            <p className="text-stone-500 text-[11px]">{video.channel}</p>
-          </div>
-          <button onClick={onClose} aria-label="Close video" className="p-1.5 rounded-md hover:bg-white/10 text-white/70"><X size={16} /></button>
-        </div>
-        <div className="aspect-video">
-          <iframe src={embedUrl} title={video.title} className="w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen />
-        </div>
-        {searchUrl && (
-          <div className="px-4 py-2.5 border-t border-white/10 text-center">
-            <a href={searchUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[12px] text-stone-400 hover:text-white transition-colors">
-              Video not playing? Find this tutorial on YouTube <ExternalLink size={12} />
-            </a>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
 export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, completedMap, toggleStep, bookmarked, onBookmark, dark }) {
   const [activeStep, setActiveStep] = useState(0);
   const [tocOpen, setTocOpen] = useState(false);
   const [lightbox, setLightbox] = useState(null);
-  const [videoModal, setVideoModal] = useState(null);
   const [shareToast, setShareToast] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
   const stepRefs = useRef([]);
@@ -326,9 +295,11 @@ export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, com
                   <h3 className={`text-[12px] font-bold uppercase tracking-widest mb-2.5 ${D ? 'text-stone-500' : 'text-stone-400'}`}>
                     Watch: Related Tutorial
                   </h3>
-                  <button
-                    onClick={() => setVideoModal(featuredVideo)}
-                    className="relative w-full rounded-xl overflow-hidden group"
+                  <a
+                    href={`https://www.youtube.com/watch?v=${featuredVideo.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative block w-full rounded-xl overflow-hidden group"
                   >
                     <img
                       src={`https://img.youtube.com/vi/${featuredVideo.id}/maxresdefault.jpg`}
@@ -346,9 +317,9 @@ export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, com
                       <p className="text-white/70 text-[11px]">{featuredVideo.channel} · YouTube</p>
                     </div>
                     <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
-                      <Play size={8} fill="white" /> YouTube
+                      <ExternalLink size={9} /> YouTube
                     </div>
-                  </button>
+                  </a>
                   <a href={youtubeSearchUrl} target="_blank" rel="noopener noreferrer"
                     className={`inline-flex items-center gap-1.5 mt-2 text-[12px] transition-colors ${D ? 'text-stone-500 hover:text-stone-300' : 'text-stone-400 hover:text-stone-700'}`}>
                     More tutorials for this guide on YouTube <ExternalLink size={12} />
@@ -576,7 +547,6 @@ export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, com
       </div>
 
       <Lightbox src={lightbox} onClose={() => setLightbox(null)} />
-      <VideoModal video={videoModal} searchUrl={youtubeSearchUrl} onClose={() => setVideoModal(null)} />
     </>
   );
 }
