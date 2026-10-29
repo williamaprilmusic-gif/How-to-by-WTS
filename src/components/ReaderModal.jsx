@@ -6,7 +6,6 @@ import {
   Wrench, ShieldCheck, Newspaper, FlaskConical, FileText, Link2
 } from 'lucide-react';
 import { CATEGORY_META } from '../lib/topics.js';
-import { CURATED_VIDEOS } from '../lib/generator.js';
 
 const SOURCE_ICON = {
   Documentation: FileText,
@@ -66,11 +65,6 @@ export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, com
   const words = guide.steps.reduce((n, s) => n + (s.content?.split(' ').length || 0), 0);
   const readMins = Math.max(1, Math.ceil(words / 200));
   const catMeta = CATEGORY_META[guide.category] || {};
-  const videos = CURATED_VIDEOS[guide.category] || [];
-  // Stable pick per guide (not random on every re-render) so the video
-  // doesn't change when you toggle steps.
-  const videoSeed = [...String(guide.id)].reduce((a, c) => a + c.charCodeAt(0), 0);
-  const featuredVideo = videos.length ? videos[videoSeed % videos.length] : null;
   const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(guide.youtubeQuery || `${guide.title} tutorial`)}`;
 
   const related = (guides || [])
@@ -289,43 +283,22 @@ export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, com
                 </div>
               )}
 
-              {/* Featured video */}
-              {featuredVideo && (
-                <div className="mb-7 print:hidden">
-                  <h3 className={`text-[12px] font-bold uppercase tracking-widest mb-2.5 ${D ? 'text-stone-500' : 'text-stone-400'}`}>
-                    Watch: Related Tutorial
-                  </h3>
-                  <a
-                    href={`https://www.youtube.com/watch?v=${featuredVideo.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative block w-full rounded-xl overflow-hidden group"
-                  >
-                    <img
-                      src={`https://img.youtube.com/vi/${featuredVideo.id}/maxresdefault.jpg`}
-                      alt={featuredVideo.title}
-                      className="w-full h-48 object-cover group-hover:brightness-90 transition-all"
-                      onError={e => { e.target.src = `https://img.youtube.com/vi/${featuredVideo.id}/hqdefault.jpg`; }}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/25 group-hover:bg-black/35 transition-colors">
-                      <div className="w-14 h-14 rounded-full bg-white/95 flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
-                        <Play size={22} className="text-slate-800 ml-1" fill="currentColor" />
-                      </div>
-                    </div>
-                    <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-black/70 to-transparent">
-                      <p className="text-white text-[13px] font-semibold drop-shadow">{featuredVideo.title}</p>
-                      <p className="text-white/70 text-[11px]">{featuredVideo.channel} · YouTube</p>
-                    </div>
-                    <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1">
-                      <ExternalLink size={9} /> YouTube
-                    </div>
-                  </a>
-                  <a href={youtubeSearchUrl} target="_blank" rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-1.5 mt-2 text-[12px] transition-colors ${D ? 'text-stone-500 hover:text-stone-300' : 'text-stone-400 hover:text-stone-700'}`}>
-                    More tutorials for this guide on YouTube <ExternalLink size={12} />
-                  </a>
-                </div>
-              )}
+              {/* Watch tutorials on YouTube */}
+              <a
+                href={youtubeSearchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex items-center gap-3 mb-7 p-3.5 rounded-xl border transition-colors print:hidden group ${D ? 'border-stone-800 hover:bg-stone-900' : 'border-stone-200 hover:bg-stone-50'}`}
+              >
+                <span className="shrink-0 w-10 h-10 rounded-lg bg-red-600 flex items-center justify-center">
+                  <Play size={18} className="text-white ml-0.5" fill="currentColor" />
+                </span>
+                <span className="flex-1 min-w-0">
+                  <span className={`block text-[13px] font-semibold ${text}`}>Watch video tutorials</span>
+                  <span className={`block text-[12px] ${muted}`}>Find step-by-step videos for this guide on YouTube</span>
+                </span>
+                <ExternalLink size={15} className={`shrink-0 ${muted} group-hover:text-red-500`} />
+              </a>
 
               {/* ── Steps ──────────────────────────────────────── */}
               <div className="space-y-4">
