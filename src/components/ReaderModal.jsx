@@ -27,7 +27,7 @@ function Lightbox({ src, onClose }) {
   );
 }
 
-function VideoModal({ video, onClose }) {
+function VideoModal({ video, searchUrl, onClose }) {
   if (!video) return null;
   const embedUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1`;
   return (
@@ -45,6 +45,13 @@ function VideoModal({ video, onClose }) {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen />
         </div>
+        {searchUrl && (
+          <div className="px-4 py-2.5 border-t border-white/10 text-center">
+            <a href={searchUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[12px] text-stone-400 hover:text-white transition-colors">
+              Video not playing? Find this tutorial on YouTube <ExternalLink size={12} />
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -91,7 +98,11 @@ export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, com
   const readMins = Math.max(1, Math.ceil(words / 200));
   const catMeta = CATEGORY_META[guide.category] || {};
   const videos = CURATED_VIDEOS[guide.category] || [];
-  const featuredVideo = videos[Math.floor(Math.random() * videos.length)];
+  // Stable pick per guide (not random on every re-render) so the video
+  // doesn't change when you toggle steps.
+  const videoSeed = [...String(guide.id)].reduce((a, c) => a + c.charCodeAt(0), 0);
+  const featuredVideo = videos.length ? videos[videoSeed % videos.length] : null;
+  const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(guide.youtubeQuery || `${guide.title} tutorial`)}`;
 
   const related = (guides || [])
     .filter(g => g.id !== guide.id)
@@ -338,6 +349,10 @@ export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, com
                       <Play size={8} fill="white" /> YouTube
                     </div>
                   </button>
+                  <a href={youtubeSearchUrl} target="_blank" rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-1.5 mt-2 text-[12px] transition-colors ${D ? 'text-stone-500 hover:text-stone-300' : 'text-stone-400 hover:text-stone-700'}`}>
+                    More tutorials for this guide on YouTube <ExternalLink size={12} />
+                  </a>
                 </div>
               )}
 
@@ -561,7 +576,7 @@ export default function ReaderModal({ guide, guides, onOpen, onTag, onClose, com
       </div>
 
       <Lightbox src={lightbox} onClose={() => setLightbox(null)} />
-      <VideoModal video={videoModal} onClose={() => setVideoModal(null)} />
+      <VideoModal video={videoModal} searchUrl={youtubeSearchUrl} onClose={() => setVideoModal(null)} />
     </>
   );
 }
